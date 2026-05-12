@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CMI FY2025-2026 Quarterly Summary Report</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400;1,700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f0ebe0;
+  --surface: #ffffff;
+  --surface2: #f7f3ec;
+  --border: #ddd6c8;
+  --navy: #0f1e3d;
+  --sidebar: #0f1e3d;
+  --teal: #1a8a8a;
+  --teal2: #147474;
+  --orange: #c07a28;
+  --green: #2d8a5e;
+  --red: #b03030;
+  --yellow: #b8860b;
+  --purple: #6d4c9e;
+  --text: #0f1e3d;
+  --text2: #4a5778;
+  --text3: #8a95a8;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;display:flex;min-height:100vh;}
+
+/* SIDEBAR */
+.sidebar{width:220px;min-width:220px;background:var(--sidebar);min-height:100vh;position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column;z-index:200;}
+.sidebar-logo{padding:26px 22px 20px;border-bottom:1px solid rgba(255,255,255,0.08);}
+.si-eyebrow{font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:8px;}
+.si-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;line-height:1.3;color:#fff;}
+.si-title em{color:#c07a28;font-style:italic;}
+.si-sub{font-size:10px;color:rgba(255,255,255,0.3);margin-top:5px;letter-spacing:0.06em;}
+.sidebar-meta{padding:14px 22px;border-bottom:1px solid rgba(255,255,255,0.08);}
+.sm-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.35);}
+.sm-val{font-size:13px;font-weight:600;color:#fff;margin-top:2px;}
+.sidebar-nav{flex:1;padding:10px 0;}
+.nav-item{display:flex;align-items:center;justify-content:space-between;padding:11px 22px;cursor:pointer;color:rgba(255,255,255,0.5);font-size:13px;font-weight:500;border:none;background:none;width:100%;text-align:left;border-left:3px solid transparent;transition:all 0.15s;}
+.nav-item:hover{color:rgba(255,255,255,0.85);background:rgba(255,255,255,0.05);}
+.nav-item.active{color:#fff;background:rgba(192,122,40,0.18);border-left-color:#c07a28;font-weight:600;}
+.nav-num{font-size:10px;font-weight:700;color:rgba(255,255,255,0.2);letter-spacing:0.06em;}
+.nav-item.active .nav-num{color:rgba(192,122,40,0.7);}
+
+/* PAGE */
+.page-wrap{flex:1;min-width:0;display:flex;flex-direction:column;}
+.hero{background:var(--surface);border-bottom:1px solid var(--border);padding:36px 48px 30px;position:relative;}
+.hero-eyebrow{font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--teal);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.hero-eyebrow::before{content:'';display:block;width:20px;height:2px;background:var(--teal);}
+.hero h1{font-family:'Playfair Display',serif;font-size:38px;font-weight:700;line-height:1.15;color:var(--navy);max-width:600px;}
+.hero h1 em{color:var(--teal);font-style:italic;}
+.hero-sub{font-size:13px;color:var(--text2);margin-top:10px;max-width:500px;line-height:1.6;}
+.hero-badge{position:absolute;right:48px;top:36px;border:1px solid var(--border);padding:10px 16px;text-align:center;}
+.hb-main{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--navy);}
+.hb-sub{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;margin-top:2px;}
+.hb-tag{font-size:10px;font-weight:700;color:var(--orange);margin-top:4px;}
+
+main{padding:30px 44px 64px;}
+.section{display:none;animation:fi 0.25s ease;}
+.section.active{display:block;}
+@keyframes fi{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+/* SECTION HEADER */
+.sec-head{margin-bottom:24px;padding-bottom:18px;border-bottom:1px solid var(--border);}
+.sec-num{font-size:10px;font-weight:700;color:var(--teal);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:6px;}
+.sec-head h2{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--navy);}
+.sec-head p{font-size:13px;color:var(--text2);margin-top:5px;}
+
+/* GRIDS */
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.g2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+.row{display:flex;gap:14px;}
+.row>*{flex:1;min-width:0;}
+.mb{margin-bottom:18px;}
+@media(max-width:1100px){.g4{grid-template-columns:repeat(2,1fr);}.g3{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:680px){.g4,.g3,.g2,.row{grid-template-columns:1fr;flex-direction:column;}}
+
+/* CARDS */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,0.04);transition:box-shadow 0.2s;}
+.card:hover{box-shadow:0 4px 18px rgba(15,30,61,0.09);}
+.card-title{font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:7px;}
+.ct-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.ct-teal{background:var(--teal);}
+.ct-orange{background:var(--orange);}
+.ct-green{background:var(--green);}
+.ct-red{background:var(--red);}
+.ct-yellow{background:var(--yellow);}
+.ct-purple{background:var(--purple);}
+.chart-wrap{position:relative;width:100%;}
+
+/* KPI */
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:20px 18px;display:flex;flex-direction:column;gap:3px;position:relative;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.04);transition:transform 0.18s,box-shadow 0.18s;}
+.kpi:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(15,30,61,0.1);}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.kpi.k-teal::before{background:var(--teal);}
+.kpi.k-orange::before{background:var(--orange);}
+.kpi.k-green::before{background:var(--green);}
+.kpi.k-red::before{background:var(--red);}
+.kpi.k-yellow::before{background:var(--yellow);}
+.kpi.k-purple::before{background:var(--purple);}
+.kpi-label{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;}
+.kpi-val{font-family:'Playfair Display',serif;font-size:38px;font-weight:700;line-height:1;}
+.kpi.k-teal .kpi-val{color:var(--teal);}
+.kpi.k-orange .kpi-val{color:var(--orange);}
+.kpi.k-green .kpi-val{color:var(--green);}
+.kpi.k-red .kpi-val{color:var(--red);}
+.kpi.k-yellow .kpi-val{color:var(--yellow);}
+.kpi.k-purple .kpi-val{color:var(--purple);}
+.kpi-sub{font-size:11px;color:var(--text2);margin-top:2px;}
+.badge{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:700;padding:2px 7px;border-radius:2px;margin-top:7px;width:fit-content;letter-spacing:0.04em;}
+.b-up{background:rgba(45,138,94,0.12);color:var(--green);}
+.b-down{background:rgba(176,48,48,0.1);color:var(--red);}
+
+/* STAT BARS */
+.stat-row{display:flex;flex-direction:column;gap:9px;}
+.stat-item{display:flex;flex-direction:column;gap:3px;}
+.stat-lr{display:flex;justify-content:space-between;align-items:center;}
+.stat-name{font-size:12px;color:var(--text2);font-weight:500;}
+.stat-pct{font-size:12px;font-weight:700;color:var(--navy);}
+.bar-track{height:5px;background:rgba(15,30,61,0.08);border-radius:3px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:3px;}
+.f-teal{background:var(--teal);}
+.f-orange{background:var(--orange);}
+.f-green{background:var(--green);}
+.f-red{background:var(--red);}
+.f-yellow{background:var(--yellow);}
+.f-purple{background:var(--purple);}
+.f-navy{background:var(--navy);}
+
+/* TABLE */
+.tbl{width:100%;border-collapse:collapse;font-size:12px;}
+.tbl thead tr{border-bottom:2px solid var(--navy);}
+.tbl th{padding:8px 10px;text-align:left;font-size:10px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:0.09em;}
+.tbl td{padding:8px 10px;border-bottom:1px solid var(--border);color:var(--text2);}
+.tbl td:first-child{color:var(--navy);font-weight:500;}
+.tbl tr:last-child td{border-bottom:none;}
+.tbl tr:hover td{background:#faf7f2;}
+.td-hi{font-weight:700;color:var(--teal)!important;}
+.td-num{font-weight:600;color:var(--navy)!important;font-variant-numeric:tabular-nums;}
+.td-red{font-weight:700;color:var(--red)!important;}
+.td-green{font-weight:700;color:var(--green)!important;}
+
+/* CALLOUT */
+.callout{background:var(--surface2);border:1px solid var(--border);border-left:3px solid var(--teal);border-radius:2px;padding:13px 16px;display:flex;gap:11px;align-items:flex-start;}
+.callout-icon{font-size:18px;flex-shrink:0;margin-top:1px;}
+.callout h4{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:3px;}
+.callout p{font-size:12px;color:var(--text2);line-height:1.6;}
+.callout.c-orange{border-left-color:var(--orange);background:#fdf8f2;}
+.callout.c-red{border-left-color:var(--red);background:#fdf4f4;}
+.callout.c-green{border-left-color:var(--green);}
+
+/* TIMELINE */
+.tl{display:flex;flex-direction:column;gap:12px;}
+.tl-item{display:flex;gap:12px;align-items:flex-start;}
+.tl-dot-col{display:flex;flex-direction:column;align-items:center;}
+.tl-dot{width:9px;height:9px;border-radius:50%;background:var(--teal);flex-shrink:0;margin-top:3px;}
+.tl-line{width:1px;flex:1;background:var(--border);margin-top:3px;min-height:16px;}
+.tl-period{font-size:10px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:0.09em;margin-bottom:2px;}
+.tl-text{font-size:12px;color:var(--text2);line-height:1.6;padding-bottom:2px;}
+.tl-text strong{color:var(--navy);font-weight:700;}
+
+/* HIGHLIGHT CARD */
+.hl-card{background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:16px;border-left:3px solid var(--teal);}
+.hl-tag{font-size:10px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:5px;}
+.hl-card h3{font-family:'Playfair Display',serif;font-size:16px;color:var(--navy);margin-bottom:5px;}
+.hl-card p{font-size:12px;color:var(--text2);line-height:1.6;}
+
+/* DEPT CARD */
+.dept-card{background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
+.dept-label{font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:4px;}
+.dept-num{font-family:'Playfair Display',serif;font-size:36px;font-weight:700;color:var(--teal);line-height:1;}
+.dept-row{display:flex;gap:14px;margin-top:8px;}
+.dept-stat-val{font-size:14px;font-weight:700;color:var(--navy);}
+.dept-stat-lbl{font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.07em;}
+.dept-meta{font-size:11px;color:var(--text3);margin-top:6px;line-height:1.5;}
+
+/* PROGRESS BAR (budget usage) */
+.prog-wrap{display:flex;flex-direction:column;gap:12px;}
+.prog-item{display:flex;flex-direction:column;gap:4px;}
+.prog-top{display:flex;justify-content:space-between;font-size:12px;}
+.prog-name{font-weight:600;color:var(--navy);}
+.prog-nums{color:var(--text2);font-size:11px;display:flex;gap:10px;}
+.prog-track{height:8px;background:rgba(15,30,61,0.07);border-radius:4px;overflow:hidden;position:relative;}
+.prog-bar{height:100%;border-radius:4px;transition:width 0.8s ease;}
+.prog-over{position:absolute;right:0;top:0;bottom:0;background:rgba(176,48,48,0.25);border-radius:0 4px 4px 0;}
+
+/* DONUT LEGEND */
+.dleg{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px;}
+.dleg-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text2);}
+.dleg-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+
+/* GOAL CARD */
+.goal-card{background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:18px;display:flex;gap:14px;align-items:flex-start;}
+.goal-num{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--teal);flex-shrink:0;line-height:1;}
+.goal-body h3{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:4px;}
+.goal-body p{font-size:12px;color:var(--text2);line-height:1.6;}
+.goal-pill{display:inline-block;padding:2px 8px;border-radius:2px;font-size:10px;font-weight:700;margin-bottom:6px;letter-spacing:0.04em;}
+.gp-teal{background:rgba(26,138,138,0.1);color:var(--teal);}
+.gp-orange{background:rgba(192,122,40,0.1);color:var(--orange);}
+.gp-red{background:rgba(176,48,48,0.1);color:var(--red);}
+
+/* scrollbar */
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-thumb{background:#c8bfb0;border-radius:2px;}
+
+.q-pill{background:none;border:1px solid var(--border);color:var(--text2);font-size:12px;font-weight:600;padding:8px 18px;border-radius:2px;cursor:pointer;transition:all 0.15s;letter-spacing:0.04em;}
+.q-pill:hover{background:var(--surface2);color:var(--navy);}
+.q-pill.q-active{background:var(--navy);color:#fff;border-color:var(--navy);}
+.ct-navy{background:var(--navy);}
+.kpi.k-purple::before{background:var(--purple);}
+.kpi.k-purple .kpi-val{color:var(--purple);}
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="si-eyebrow">FY 2025–2026 Quarterly Summary Report</div>
+    <div class="si-title">College <em>of the</em><br>Marshall Islands</div>
+    <div class="si-sub">Institutional Research &amp; Assessment</div>
+  </div>
+  <div class="sidebar-meta">
+    <div class="sm-label">Academic Year</div>
+    <div class="sm-val">2025–2026 · Spring 2026</div>
+  </div>
+  <div class="sidebar-meta">
+    <div class="sm-label">Financial Period</div>
+    <div class="sm-val">FY 2026 · YTD</div>
+  </div>
+  <nav class="sidebar-nav">
+    <button class="nav-item active" onclick="showTab('overview',this)"><span>Overview</span><span class="nav-num">01</span></button>
+    <button class="nav-item" onclick="showTab('academic',this)"><span>Academic</span><span class="nav-num">02</span></button>
+    <button class="nav-item" onclick="showTab('financial',this)"><span>Financial / Budget</span><span class="nav-num">03</span></button>
+    <button class="nav-item" onclick="showTab('strategic',this)"><span>Strategic Goals</span><span class="nav-num">04</span></button>
+    <button class="nav-item" onclick="showTab('quarterly',this)"><span>Quarterly Reports</span><span class="nav-num">05</span></button>
+    <button class="nav-item" onclick="showTab('accreditation',this)"><span>Accreditation</span><span class="nav-num">06</span></button>
+    <button class="nav-item" onclick="showTab('highlights',this)"><span>Highlights</span><span class="nav-num">07</span></button>
+  </nav>
+</aside>
+
+<div class="page-wrap">
+<div class="hero">
+  <div class="hero-eyebrow">College of the Marshall Islands · AY 2025–2026</div>
+  <h1>CMI <em>FY2025–2026</em><br>Quarterly Summary Report</h1>
+  <div class="hero-sub">Spring 2026 enrollment, academic outcomes, FY26 budget performance, strategic progress, and institutional highlights — all in one place.</div>
+  <div class="hero-badge">
+    <div class="hb-main">1,033</div>
+    <div class="hb-sub">SP26 Students</div>
+    <div class="hb-tag">▲ +6% from SP25</div>
+  </div>
+</div>
+
+<main>
+
+<!-- ===== OVERVIEW ===== -->
+<div class="section active" id="tab-overview">
+  <div class="sec-head">
+    <div class="sec-num">01 · Overview</div>
+    <h2>Official Postsecondary Enrollment — 2026 Spring</h2>
+    <p>Official postsecondary enrollment · February 16, 2026 · Source: Institutional Research &amp; Assessment</p>
+  </div>
+
+  <div class="g4 mb">
+    <div class="kpi k-teal"><div class="kpi-label">Total Enrollment</div><div class="kpi-val">1,033</div><div class="kpi-sub">Unduplicated headcount</div><span class="badge b-up">▲ +6% from SP25</span></div>
+    <div class="kpi k-orange"><div class="kpi-label">Full-Time Equivalent</div><div class="kpi-val">695</div><div class="kpi-sub">Credit hours ÷ 15</div><span class="badge b-up">▲ +10% from SP25</span></div>
+    <div class="kpi k-green"><div class="kpi-label">Average Age</div><div class="kpi-val">24.10</div><div class="kpi-sub">All enrolled students</div></div>
+    <div class="kpi k-navy" style="--kpi-c:var(--navy);"><div class="kpi-label">Avg Credits Earned</div><div class="kpi-val" style="color:var(--navy);">36.91</div><div class="kpi-sub">Per student, cumulative</div></div>
+  </div>
+
+  <div class="row mb">
+    <div class="card" style="flex:2.2;">
+      <div class="card-title"><span class="ct-dot ct-teal"></span>Enrollment Trend — Spring Semesters 2021–2026</div>
+      <div class="chart-wrap" style="height:220px;"><canvas id="trendChart"></canvas></div>
+    </div>
+    <div class="card" style="flex:1;">
+      <div class="card-title"><span class="ct-dot ct-orange"></span>Gender Split — SP26</div>
+      <div class="chart-wrap" style="height:160px;"><canvas id="genderChart"></canvas></div>
+      <div class="dleg">
+        <div class="dleg-item"><div class="dleg-dot" style="background:var(--teal)"></div>Female 583 (56%)</div>
+        <div class="dleg-item"><div class="dleg-dot" style="background:var(--orange)"></div>Male 450 (44%)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g3 mb">
+    <div class="card">
+      <div class="card-title"><span class="ct-dot ct-teal"></span>Registration Status</div>
+      <div class="stat-row">
+        <div class="stat-item"><div class="stat-lr"><span class="stat-name">Continuing</span><span class="stat-pct">79.19%</span></div><div class="bar-track"><div class="bar-fill f-teal" style="width:79.19%"></div></div></div>
+        <div class="stat-item"><div class="stat-lr"><span class="stat-name">First-Time</span><span class="stat-pct">9.49%</span></div><div class="bar-track"><div class="bar-fill f-orange" style="width:9.49%"></div></div></div>
+        <div class="stat-item"><div class="stat-lr"><span class="stat-name">Re-Admitted</span><span class="stat-pct">6.58%</span></div><div class="bar-track"><div class="bar-fill f-green" style="width:6.58%"></div></div></div>
+        <div class="stat-item"><div class="stat-lr"><span class="stat-name">Returning</span><span class="stat-pct">4.45%</span></div><div class="bar-track"><div class="bar-fill f-yellow" style="width:4.45%"></div></div></div>
+        <div class="stat-item"><div class="stat-lr"><span class="stat-name">Transferee</span><span class="stat-pct">0.29%</span></div><div class="bar-track"><div class="bar-fill f-purple" style="width:0.29%"></div></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="ct-dot ct-orange"></span>Financial Aid Standing</div>
+      <div class="stat-row">
+        <div class="stat-item"><div class="stat-lr"><span class="stat-name">Satisfactory</span><span class="stat-pct">64%</span></div><div class="bar-track"><div class="bar-fill f-green" style="width:64%"></div></div></div>
+        <div class="stat-item"><div class="stat-lr"><span class="stat-name">Warning</span><span class="stat-pct">20%</span></div><div class="bar-track"><div class="bar-fill f-yellow" style="width:20%"></div></div></div>
+        <div class="stat-item"><div class="stat-lr"><span class="stat-name">Suspension</span><span class="stat-pct">6%</span></div><div class="bar-track"><div class="bar-fill f-red" style="width:6%"></div></div></div>
+        <div class="stat-item"><div class="stat-lr"><span class="stat-name">Probation</span><span class="stat-pct">6%</span></div><div class="bar-track"><div class="bar-fill f-orange" style="width:6%"></div></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="ct-dot ct-green"></span>Credit Load &amp; 15-to-Finish</div>
+      <div class="stat-row">
+        <div class="stat-item"><div class="stat-lr"><span class="stat-name">Full-Time</span><span class="stat-pct">67%</span></div><div class="bar-track"><div class="bar-fill f-teal" style="width:67%"></div></div></div>
+        <div class="stat-item"><div class="stat-lr"><span class="stat-name">Part-Time</span><span class="stat-pct">33%</span></div><div class="bar-track"><div class="bar-fill f-orange" style="width:33%"></div></div></div>
+      </div>
+      <div style="height:12px;"></div>
+      <div style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">15-to-Finish Status</div>
+      <div class="stat-row">
+        <div class="stat-item"><div class="stat-lr"><span class="stat-name">Below 15 Credits (at risk)</span><span class="stat-pct">76%</span></div><div class="bar-track"><div class="bar-fill f-red" style="width:76%"></div></div></div>
+        <div class="stat-item"><div class="stat-lr"><span class="stat-name">At or Above 15 Credits</span><span class="stat-pct">24%</span></div><div class="bar-track"><div class="bar-fill f-green" style="width:24%"></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb">
+    <div class="card">
+      <div class="card-title"><span class="ct-dot ct-teal"></span>Enrollment by Location</div>
+      <div class="chart-wrap" style="height:180px;"><canvas id="locationChart"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="ct-dot ct-orange"></span>Citizenship</div>
+      <div class="stat-row">
+        <div class="stat-item"><div class="stat-lr"><span class="stat-name">Marshall Islands</span><span class="stat-pct">90.32%</span></div><div class="bar-track"><div class="bar-fill f-teal" style="width:90.32%"></div></div></div>
+        <div class="stat-item"><div class="stat-lr"><span class="stat-name">Unknown</span><span class="stat-pct">7.07%</span></div><div class="bar-track"><div class="bar-fill f-orange" style="width:7.07%"></div></div></div>
+        <div class="stat-item"><div class="stat-lr"><span class="stat-name">FSM</span><span class="stat-pct">1.26%</span></div><div class="bar-track"><div class="bar-fill f-green" style="width:1.26%"></div></div></div>
+        <div class="stat-item"><div class="stat-lr"><span class="stat-name">United States</span><span class="stat-pct">0.39%</span></div><div class="bar-track"><div class="bar-fill f-yellow" style="width:0.39%"></div></div></div>
+        <div class="stat-item"><div class="stat-lr"><span class="stat-name">China / Other</span><span class="stat-pct">0.29%</span></div><div class="bar-track"><div class="bar-fill f-purple" style="width:0.29%"></div></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="ct-dot ct-yellow"></span>High School Type</div>
+      <div class="stat-row">
+        <div class="stat-item"><div class="stat-lr"><span class="stat-name">RMI Public</span><span class="stat-pct">64.18%</span></div><div class="bar-track"><div class="bar-fill f-teal" style="width:64.18%"></div></div></div>
+        <div class="stat-item"><div class="stat-lr"><span class="stat-name">RMI Private</span><span class="stat-pct">17.13%</span></div><div class="bar-track"><div class="bar-fill f-orange" style="width:17.13%"></div></div></div>
+        <div class="stat-item"><div class="stat-lr"><span class="stat-name">RMI HS Equivalent</span><span class="stat-pct">9.49%</span></div><div class="bar-track"><div class="bar-fill f-green" style="width:9.49%"></div></div></div>
+        <div class="stat-item"><div class="stat-lr"><span class="stat-name">Non-RMI</span><span class="stat-pct">8.91%</span></div><div class="bar-track"><div class="bar-fill f-yellow" style="width:8.91%"></div></div></div>
+        <div class="stat-item"><div class="stat-lr"><span class="stat-name">Unknown</span><span class="stat-pct">0.29%</span></div><div class="bar-track"><div class="bar-fill f-purple" style="width:0.29%"></div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ACADEMIC ===== -->
+<div class="section" id="tab-academic">
+  <div class="sec-head">
+    <div class="sec-num">02 · Academic</div>
+    <h2>Academic Programs — Spring 2026</h2>
+    <p>Department enrollment, placement, and developmental course trends</p>
+  </div>
+
+  <div class="card mb">
+    <div class="card-title"><span class="ct-dot ct-teal"></span>Department Enrollment — Spring 2026 Headcount</div>
+    <div class="chart-wrap" style="height:240px;"><canvas id="deptBar"></canvas></div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;" class="mb">
+    <div class="dept-card"><div class="dept-label">Liberal Arts Studies</div><div class="dept-num">353</div><div class="dept-row"><div><div class="dept-stat-val">228</div><div class="dept-stat-lbl">FTE</div></div><div><div class="dept-stat-val">22.73</div><div class="dept-stat-lbl">Avg Age</div></div><div><div class="dept-stat-val">29.43</div><div class="dept-stat-lbl">Avg Credits</div></div></div><div class="dept-meta">AA-LBA 100% · 58% Female · 92% Special Programs</div></div>
+    <div class="dept-card"><div class="dept-label">Business Studies</div><div class="dept-num" style="color:var(--orange)">244</div><div class="dept-row"><div><div class="dept-stat-val">160</div><div class="dept-stat-lbl">FTE</div></div><div><div class="dept-stat-val">22.02</div><div class="dept-stat-lbl">Avg Age</div></div><div><div class="dept-stat-val">25.68</div><div class="dept-stat-lbl">Avg Credits</div></div></div><div class="dept-meta">AA-BUS 99.18% · 54% Male · 95% Special Programs</div></div>
+    <div class="dept-card"><div class="dept-label">Elementary Education</div><div class="dept-num" style="color:var(--green)">263</div><div class="dept-row"><div><div class="dept-stat-val">183</div><div class="dept-stat-lbl">FTE</div></div><div><div class="dept-stat-val">28.65</div><div class="dept-stat-lbl">Avg Age</div></div><div><div class="dept-stat-val">59.92</div><div class="dept-stat-lbl">Avg Credits</div></div></div><div class="dept-meta">AS-EEDU 64.64% | BA-EEDU 30.80% · 64% Female</div></div>
+    <div class="dept-card"><div class="dept-label">Nursing &amp; Allied Health</div><div class="dept-num" style="color:var(--yellow)">111</div><div class="dept-row"><div><div class="dept-stat-val">76</div><div class="dept-stat-lbl">FTE</div></div><div><div class="dept-stat-val">23.44</div><div class="dept-stat-lbl">Avg Age</div></div><div><div class="dept-stat-val">40.30</div><div class="dept-stat-lbl">Avg Credits</div></div></div><div class="dept-meta">AS-NURS 83.78% · 75% Female · 78% Special Programs</div></div>
+    <div class="dept-card"><div class="dept-label">WAVES Program</div><div class="dept-num" style="color:var(--purple)">36</div><div class="dept-row"><div><div class="dept-stat-val">31</div><div class="dept-stat-lbl">FTE</div></div><div><div class="dept-stat-val">21.97</div><div class="dept-stat-lbl">Avg Age</div></div><div><div class="dept-stat-val">21.78</div><div class="dept-stat-lbl">Avg Credits</div></div></div><div class="dept-meta">CC-RFPNW 52.78% | CC-RFPERW 22.22% · 83% Male</div></div>
+    <div class="dept-card"><div class="dept-label">Marine Science &amp; IT</div><div class="dept-num" style="color:var(--red)">12</div><div class="dept-row"><div><div class="dept-stat-val">11</div><div class="dept-stat-lbl">FTE</div></div><div><div class="dept-stat-val">23.33</div><div class="dept-stat-lbl">Avg Age</div></div><div><div class="dept-stat-val">33.75</div><div class="dept-stat-lbl">Avg Credits</div></div></div><div class="dept-meta">CC-MSCI 83.33% | CC-ITSL1 16.67% · 92% Male</div></div>
+  </div>
+
+  <div class="row mb">
+    <div class="card">
+      <div class="card-title"><span class="ct-dot ct-teal"></span>English Placement — All Students</div>
+      <div class="chart-wrap" style="height:180px;"><canvas id="engChart"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="ct-dot ct-orange"></span>Math Placement — All Students</div>
+      <div class="chart-wrap" style="height:180px;"><canvas id="mathChart"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="ct-dot ct-green"></span>Top Degree Programs (First Choice)</div>
+      <div class="stat-row">
+        <div class="stat-item"><div class="stat-lr"><span class="stat-name">AA – Liberal Arts</span><span class="stat-pct">34.17%</span></div><div class="bar-track"><div class="bar-fill f-teal" style="width:100%"></div></div></div>
+        <div class="stat-item"><div class="stat-lr"><span class="stat-name">AA – Business Studies</span><span class="stat-pct">23.43%</span></div><div class="bar-track"><div class="bar-fill f-orange" style="width:68.6%"></div></div></div>
+        <div class="stat-item"><div class="stat-lr"><span class="stat-name">AS – Elementary Ed.</span><span class="stat-pct">16.46%</span></div><div class="bar-track"><div class="bar-fill f-green" style="width:48.1%"></div></div></div>
+        <div class="stat-item"><div class="stat-lr"><span class="stat-name">AS – Nursing</span><span class="stat-pct">9.00%</span></div><div class="bar-track"><div class="bar-fill f-yellow" style="width:26.3%"></div></div></div>
+        <div class="stat-item"><div class="stat-lr"><span class="stat-name">BA – Education</span><span class="stat-pct">5.80%</span></div><div class="bar-track"><div class="bar-fill f-purple" style="width:17%"></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb">
+    <div class="card">
+      <div class="card-title"><span class="ct-dot ct-red"></span>Developmental English — SP Trend</div>
+      <div class="chart-wrap" style="height:160px;"><canvas id="devEngChart"></canvas></div>
+      <div style="display:flex;gap:16px;margin-top:10px;">
+        <div><div style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;">SP26 Count</div><div style="font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--red);">293</div></div>
+        <div><div style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;">FTE</div><div style="font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--navy);">185</div></div>
+        <div><div style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;">Avg Age</div><div style="font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--navy);">22.12</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="ct-dot ct-yellow"></span>Developmental Math — SP Trend</div>
+      <div class="chart-wrap" style="height:160px;"><canvas id="devMathChart"></canvas></div>
+      <div style="display:flex;gap:16px;margin-top:10px;">
+        <div><div style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;">SP26 Count</div><div style="font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--yellow);">412</div></div>
+        <div><div style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;">FTE</div><div style="font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--navy);">281</div></div>
+        <div><div style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;">Avg Age</div><div style="font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--navy);">22.26</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="ct-dot ct-orange"></span>First-Time Students — SP Trend</div>
+      <div class="chart-wrap" style="height:160px;"><canvas id="firstTimeChart"></canvas></div>
+      <div style="display:flex;gap:16px;margin-top:10px;">
+        <div><div style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;">SP26 Count</div><div style="font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--orange);">98</div><span class="badge b-down" style="font-size:10px;">▼ −38%</span></div>
+        <div><div style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;">FTE</div><div style="font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--navy);">79</div></div>
+        <div><div style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;">Avg Age</div><div style="font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--navy);">21.90</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="card-title"><span class="ct-dot ct-teal"></span>Center Summary — Spring 2026</div>
+      <table class="tbl">
+        <thead><tr><th>Center</th><th>Count</th><th>FTE</th><th>Avg Age</th><th>Avg Credits</th></tr></thead>
+        <tbody>
+          <tr><td>Uliga Campus (Main)</td><td class="td-num">944</td><td class="td-num">~647</td><td>24.10</td><td>36.91</td></tr>
+          <tr><td>Jaluit Center</td><td class="td-num">44</td><td class="td-num">27</td><td>24.23</td><td>30.43</td></tr>
+          <tr><td>Wotje Center</td><td class="td-num">23</td><td class="td-num">17</td><td>27.30</td><td>31.26</td></tr>
+          <tr><td>Kwajalein Center</td><td class="td-num">12</td><td class="td-num">4</td><td>26.42</td><td>36.92</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="ct-dot ct-orange"></span>May 2025 Graduation Awards</div>
+      <div class="chart-wrap" style="height:180px;"><canvas id="gradChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- NURSING SECTION -->
+  <div class="sec-head" style="margin-top:4px;">
+    <div class="sec-num">Nursing &amp; Allied Health</div>
+    <h2 style="font-size:22px;">Nursing Program — Spring 2026 Updates</h2>
+    <p>AS Nursing curriculum review, accreditation pathway, and clinical training · AY 2025–2026</p>
+  </div>
+
+  <div class="g4 mb">
+    <div class="kpi k-yellow"><div class="kpi-label">SP26 Enrollment</div><div class="kpi-val">111</div><div class="kpi-sub">Nursing &amp; Allied Health</div></div>
+    <div class="kpi k-teal"><div class="kpi-label">FTE</div><div class="kpi-val">76</div><div class="kpi-sub">Full-Time Equivalent</div></div>
+    <div class="kpi k-green"><div class="kpi-label">Min. Clinical Hours</div><div class="kpi-val">288</div><div class="kpi-sub">Required in final year</div></div>
+    <div class="kpi k-orange"><div class="kpi-label">% Female Students</div><div class="kpi-val">75%</div><div class="kpi-sub">Gender breakdown SP26</div></div>
+  </div>
+
+  <div class="row mb">
+    <div class="card" style="flex:1.2;">
+      <div class="card-title"><span class="ct-dot ct-yellow"></span>Nursing Program Profile — SP26</div>
+      <div class="stat-row">
+        <div class="stat-item"><div class="stat-lr"><span class="stat-name">AS-NURS (Associate in Nursing)</span><span class="stat-pct">83.78%</span></div><div class="bar-track"><div class="bar-fill f-yellow" style="width:83.78%"></div></div></div>
+        <div class="stat-item"><div class="stat-lr"><span class="stat-name">CC-OAHA (Outer Atoll Health Assistant)</span><span class="stat-pct">9.91%</span></div><div class="bar-track"><div class="bar-fill f-orange" style="width:9.91%"></div></div></div>
+        <div class="stat-item"><div class="stat-lr"><span class="stat-name">CC-PH (Public Health)</span><span class="stat-pct">6.31%</span></div><div class="bar-track"><div class="bar-fill f-teal" style="width:6.31%"></div></div></div>
+      </div>
+      <div style="height:12px;"></div>
+      <div class="stat-row">
+        <div class="stat-item"><div class="stat-lr"><span class="stat-name">Financial Aid — Satisfactory</span><span class="stat-pct">72%</span></div><div class="bar-track"><div class="bar-fill f-green" style="width:72%"></div></div></div>
+        <div class="stat-item"><div class="stat-lr"><span class="stat-name">Full-Time Load</span><span class="stat-pct">68%</span></div><div class="bar-track"><div class="bar-fill f-teal" style="width:68%"></div></div></div>
+        <div class="stat-item"><div class="stat-lr"><span class="stat-name">Avg Credits Earned</span><span class="stat-pct">40.30</span></div><div class="bar-track"><div class="bar-fill f-orange" style="width:67.2%"></div></div></div>
+      </div>
+    </div>
+    <div class="card" style="flex:1.8;">
+      <div class="card-title"><span class="ct-dot ct-orange"></span>Nursing Program — Key Updates &amp; Action Items</div>
+      <div class="tl">
+        <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--yellow)"></div><div class="tl-line"></div></div><div><div class="tl-period">Curriculum Review</div><div class="tl-text">Spring 2026: faculty began a thorough review of the <strong>AS Nursing curriculum at both the program and course level</strong>. Improvements based on faculty expertise and MOHHS nurse input are under review by the curriculum committee.</div></div></div>
+        <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--teal)"></div><div class="tl-line"></div></div><div><div class="tl-period">New Faculty Hired</div><div class="tl-text">Fall 2025: CMI hired a new nursing faculty member with a <strong>PhD in Hospital Administration, MBA in Health Care Services, and MSc in Nursing</strong> — a key step toward programmatic accreditation.</div></div></div>
+        <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--orange)"></div><div class="tl-line"></div></div><div><div class="tl-period">International Students</div><div class="tl-text">Fall 2025 enrolled nursing majors included <strong>9 students from the FSM and 2 from the Philippines</strong> — growing the international pipeline into RMI healthcare.</div></div></div>
+        <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--green)"></div><div class="tl-line"></div></div><div><div class="tl-period">Accreditation Pathway</div><div class="tl-text">CMI expects to submit its initial application to <strong>ASEN</strong> (programmatic accreditor for associate-level nursing programs) by April 2026, beginning the candidacy process toward full accreditation.</div></div></div>
+        <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--purple)"></div><div class="tl-line"></div></div><div><div class="tl-period">CNA &amp; LPN Programs</div><div class="tl-text">CMI met with MOHHS stakeholders on the RMI nursing shortage. Plans developed for a <strong>Certified Nursing Assistant (CNA)</strong> program in high schools and a <strong>Licensed Practical Nurse (LPN)</strong> certificate — both as stepping stones to the ASN degree.</div></div></div>
+        <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--red)"></div></div><div><div class="tl-period">CHOW Completion</div><div class="tl-text">CHOW students completing their program in Spring 2026 will enroll in the <strong>Certificate of Completion in Outer Atoll Health Assistant (CC-OAHA)</strong>.</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TVET / WAVES SECTION -->
+  <div class="sec-head" style="margin-top:4px;">
+    <div class="sec-num">Workforce, Adult &amp; Vocational Education</div>
+    <h2 style="font-size:22px;">TVET &amp; WAVES — Programs &amp; Outcomes</h2>
+    <p>TVET Boot Camp, Maritime, ABE, Arrak Campus, and outer island centers · AY 2025–2026</p>
+  </div>
+
+  <div class="g4 mb">
+    <div class="kpi k-teal"><div class="kpi-label">TVET 2025 Participants</div><div class="kpi-val">76</div><div class="kpi-sub">Boot Camp enrollees</div></div>
+    <div class="kpi k-green"><div class="kpi-label">Completion Rate</div><div class="kpi-val">97%</div><div class="kpi-sub">74 of 76 completed</div></div>
+    <div class="kpi k-orange"><div class="kpi-label">6-Month Employment</div><div class="kpi-val">92%</div><div class="kpi-sub">2025 cohort post-graduation</div></div>
+    <div class="kpi k-purple"><div class="kpi-label">ABE Active Learners</div><div class="kpi-val">300+</div><div class="kpi-sub">Multiple centers island-wide</div></div>
+  </div>
+
+  <div class="row mb">
+    <div class="card" style="flex:1.4;">
+      <div class="card-title"><span class="ct-dot ct-teal"></span>TVET Boot Camp — 6-Year Performance (2020–2025)</div>
+      <div class="chart-wrap" style="height:220px;"><canvas id="tvetAcadChart"></canvas></div>
+    </div>
+    <div class="card" style="flex:1;">
+      <div class="card-title"><span class="ct-dot ct-orange"></span>Boot Camp Results by Year</div>
+      <table class="tbl">
+        <thead><tr><th>Year</th><th>Parts.</th><th>Comp.</th><th>Comp%</th><th>Emp%</th></tr></thead>
+        <tbody>
+          <tr><td>2025</td><td class="td-num">76</td><td class="td-num">74</td><td class="td-hi">97%</td><td class="td-hi">92%</td></tr>
+          <tr><td>2024</td><td class="td-num">75</td><td class="td-num">75</td><td class="td-hi">100%</td><td class="td-hi">100%</td></tr>
+          <tr><td>2023</td><td class="td-num">31</td><td class="td-num">29</td><td class="td-hi">94%</td><td class="td-hi">78%</td></tr>
+          <tr><td>2022</td><td class="td-num">58</td><td class="td-num">49</td><td class="td-hi">84%</td><td class="td-hi">67%</td></tr>
+          <tr><td>2021</td><td class="td-num">49</td><td class="td-num">46</td><td class="td-hi">94%</td><td class="td-hi">75%</td></tr>
+          <tr><td>2020</td><td class="td-num">78</td><td class="td-num">70</td><td class="td-hi">90%</td><td class="td-hi">81%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="g2 mb">
+    <div class="card">
+      <div class="card-title"><span class="ct-dot ct-purple"></span>WAVES Program — Spring 2026</div>
+      <div style="display:flex;gap:20px;margin-bottom:14px;">
+        <div><div style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;">Headcount</div><div style="font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:var(--purple);">36</div></div>
+        <div><div style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;">FTE</div><div style="font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:var(--navy);">31</div></div>
+        <div><div style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;">Full-Time</div><div style="font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:var(--navy);">86%</div></div>
+        <div><div style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;">Male</div><div style="font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:var(--navy);">83%</div></div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-item"><div class="stat-lr"><span class="stat-name">CC-RFPNW (Navigation Watch)</span><span class="stat-pct">52.78%</span></div><div class="bar-track"><div class="bar-fill f-purple" style="width:52.78%"></div></div></div>
+        <div class="stat-item"><div class="stat-lr"><span class="stat-name">CC-RFPERW (Engine Room Watch)</span><span class="stat-pct">22.22%</span></div><div class="bar-track"><div class="bar-fill f-teal" style="width:22.22%"></div></div></div>
+        <div class="stat-item"><div class="stat-lr"><span class="stat-name">CC-CARP (Carpentry)</span><span class="stat-pct">11.11%</span></div><div class="bar-track"><div class="bar-fill f-orange" style="width:11.11%"></div></div></div>
+        <div class="stat-item"><div class="stat-lr"><span class="stat-name">AS-AEHL (Allied Health)</span><span class="stat-pct">8.33%</span></div><div class="bar-track"><div class="bar-fill f-green" style="width:8.33%"></div></div></div>
+      </div>
+      <div style="height:10px;"></div>
+      <div class="tl" style="gap:8px;">
+        <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--purple)"></div><div class="tl-line"></div></div><div><div class="tl-period">Maritime Milestone</div><div class="tl-text">May 2025: first graduates of CC-RFPNW and CC-RFPERW. <strong>100% entered the workforce</strong> — featured in ACCJC white paper.</div></div></div>
+        <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--teal)"></div><div class="tl-line"></div></div><div><div class="tl-period">Sea-Time Guidance</div><div class="tl-text">Guided <strong>22 students</strong> through required sea-time. Participated in GIZ Low Carbon Sea Transport Workshop.</div></div></div>
+        <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--orange)"></div></div><div><div class="tl-period">International Reach</div><div class="tl-text">Maritime instructors presented at the <strong>FFA 7th Maritime College Seminar</strong> in the Solomon Islands.</div></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="ct-dot ct-green"></span>ABE &amp; Outer Centers — Key Data</div>
+      <div class="tl">
+        <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--teal)"></div><div class="tl-line"></div></div><div><div class="tl-period">Uliga (Main)</div><div class="tl-text">ABE program continues to be CMI's largest community-serving department with <strong>300+ learners</strong>. Level 5 practicum in bookkeeping, automotive, woodworking, and clothing &amp; textiles. Administers both U.S. HiSET and RMI HiSET.</div></div></div>
+        <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--orange)"></div><div class="tl-line"></div></div><div><div class="tl-period">Kwajalein Campus</div><div class="tl-text">Fall 2025: <strong>101 ABE students registered</strong>, 87 regularly attending. Summer Boot Camp graduated <strong>35 participants</strong> — including 3 women in Automotive and Welding.</div></div></div>
+        <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--green)"></div><div class="tl-line"></div></div><div><div class="tl-period">Wotje Center (23 Students)</div><div class="tl-text">May 2025: <strong>3 students graduated with Associate degrees</strong> in Elementary Education — the highest number of college graduates from Wotje yet.</div></div></div>
+        <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--yellow)"></div><div class="tl-line"></div></div><div><div class="tl-period">Jaluit Center (44 Students)</div><div class="tl-text">Steady increases in enrollment at both college and ABE levels thanks to <strong>targeted outreach</strong> in the atoll community.</div></div></div>
+        <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--purple)"></div><div class="tl-line"></div></div><div><div class="tl-period">Arrak Campus</div><div class="tl-text">New TVET building opened April 15, 2026 (World Bank funded). Carpentry students building <strong>drinking-water catchment systems</strong> for Laura Elementary, Laura High School, and Woja Elementary.</div></div></div>
+        <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--red)"></div></div><div><div class="tl-period">Expansion</div><div class="tl-text">New sub-centers in <strong>Likiep and Ejit</strong> in development — placement testing completed and community partnerships established.</div></div></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<div class="section" id="tab-financial">
+  <div class="sec-head">
+    <div class="sec-num">03 · Financial / Budget</div>
+    <h2>FY 2026 — Budget &amp; Expenditures</h2>
+    <p>Restricted and Unrestricted funds · Year-to-date actuals vs. original budget</p>
+  </div>
+
+  <div class="g4 mb">
+    <div class="kpi k-teal"><div class="kpi-label">Restricted Budget</div><div class="kpi-val" style="font-size:30px;">$8.55M</div><div class="kpi-sub">Excl. Student Aid &amp; Wages</div></div>
+    <div class="kpi k-orange"><div class="kpi-label">Restricted YTD Actual</div><div class="kpi-val" style="font-size:30px;">$3.22M</div><div class="kpi-sub">37.7% of budget used</div></div>
+    <div class="kpi k-green"><div class="kpi-label">Unrestricted Budget</div><div class="kpi-val" style="font-size:30px;">$9.37M</div><div class="kpi-sub">Total original budget</div></div>
+    <div class="kpi k-yellow"><div class="kpi-label">Unrestricted YTD Actual</div><div class="kpi-val" style="font-size:30px;">$3.44M</div><div class="kpi-sub">36.7% of budget used</div></div>
+  </div>
+
+  <!-- COMBINED BUDGET vs ACTUAL -->
+  <div class="row mb">
+    <div class="card" style="flex:2;">
+      <div class="card-title"><span class="ct-dot ct-teal"></span>Total Budget vs. YTD Actuals — Both Funds Combined</div>
+      <div class="chart-wrap" style="height:240px;"><canvas id="combinedBudgetChart"></canvas></div>
+    </div>
+    <div class="card" style="flex:1;">
+      <div class="card-title"><span class="ct-dot ct-orange"></span>Budget Utilization Rate</div>
+      <div class="chart-wrap" style="height:180px;"><canvas id="utilChart"></canvas></div>
+      <div class="dleg" style="margin-top:10px;">
+        <div class="dleg-item"><div class="dleg-dot" style="background:var(--teal)"></div>Restricted 37.7%</div>
+        <div class="dleg-item"><div class="dleg-dot" style="background:var(--orange)"></div>Unrestricted 36.7%</div>
+        <div class="dleg-item"><div class="dleg-dot" style="background:var(--green)"></div>Combined 64.7%</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESTRICTED DETAIL -->
+  <div class="sec-head" style="margin-top:10px;">
+    <div class="sec-num">Restricted Fund</div>
+    <h2 style="font-size:22px;">Restricted Budget — Category Breakdown</h2>
+    <p>Grants, federal programs, and restricted allocations · Total Budget: $8,548,064 (excl. Student Aid &amp; Wages)</p>
+  </div>
+
+  <div class="row mb">
+    <div class="card" style="flex:1.4;">
+      <div class="card-title"><span class="ct-dot ct-teal"></span>Restricted — Budget vs. YTD Actual by Category</div>
+      <div class="chart-wrap" style="height:280px;"><canvas id="restrictedCatChart"></canvas></div>
+    </div>
+    <div class="card" style="flex:1;">
+      <div class="card-title"><span class="ct-dot ct-orange"></span>Restricted — Budget Utilization by Category</div>
+      <div class="prog-wrap">
+        <div class="prog-item">
+          <div class="prog-top"><span class="prog-name">Personnel / Wages</span></div>
+          <div class="prog-nums"><span>Budget: $4,075,122</span><span>Actual: $1,835,915</span></div>
+          <div class="prog-track"><div class="prog-bar" style="width:45%;background:var(--teal);"></div></div>
+        </div>
+        <div class="prog-item">
+          <div class="prog-top"><span class="prog-name">Travel</span></div>
+          <div class="prog-nums"><span>Budget: $798,510</span><span>Actual: $319,585</span></div>
+          <div class="prog-track"><div class="prog-bar" style="width:40%;background:var(--orange);"></div></div>
+        </div>
+        <div class="prog-item">
+          <div class="prog-top"><span class="prog-name">Contractual Services</span></div>
+          <div class="prog-nums"><span>Budget: $1,306,587</span><span>Actual: $702,715</span></div>
+          <div class="prog-track"><div class="prog-bar" style="width:54%;background:var(--green);"></div></div>
+        </div>
+        <div class="prog-item">
+          <div class="prog-top"><span class="prog-name">Materials &amp; Supplies</span></div>
+          <div class="prog-nums"><span>Budget: $419,610</span><span>Actual: $57,315</span></div>
+          <div class="prog-track"><div class="prog-bar" style="width:14%;background:var(--yellow);"></div></div>
+        </div>
+        <div class="prog-item">
+          <div class="prog-top"><span class="prog-name">Housing &amp; HR</span></div>
+          <div class="prog-nums"><span>Budget: $424,604</span><span>Actual: $204,883</span></div>
+          <div class="prog-track"><div class="prog-bar" style="width:48%;background:var(--purple);"></div></div>
+        </div>
+        <div class="prog-item">
+          <div class="prog-top"><span class="prog-name">Facilities / Maintenance</span></div>
+          <div class="prog-nums"><span>Budget: $319,587</span><span>Actual: $25,646</span></div>
+          <div class="prog-track"><div class="prog-bar" style="width:8%;background:var(--navy);"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+    <!-- UNRESTRICTED DETAIL -->
+  <div class="sec-head" style="margin-top:10px;">
+    <div class="sec-num">Unrestricted Fund</div>
+    <h2 style="font-size:22px;">Unrestricted Budget — Category Breakdown</h2>
+    <p>Operating funds, tuition revenue, RMI subsidy · Total Budget: $9,368,652</p>
+  </div>
+
+  <div class="row mb">
+    <div class="card" style="flex:1.4;">
+      <div class="card-title"><span class="ct-dot ct-green"></span>Unrestricted — Budget vs. YTD Actual by Category</div>
+      <div class="chart-wrap" style="height:280px;"><canvas id="unrestrictedCatChart"></canvas></div>
+    </div>
+    <div class="card" style="flex:1;">
+      <div class="card-title"><span class="ct-dot ct-yellow"></span>Unrestricted — Budget Utilization by Category</div>
+      <div class="prog-wrap">
+        <div class="prog-item">
+          <div class="prog-top"><span class="prog-name">Personnel / Wages</span></div>
+          <div class="prog-nums"><span>Budget: $3,902,678</span><span>Actual: $1,868,431</span></div>
+          <div class="prog-track"><div class="prog-bar" style="width:47.9%;background:var(--teal);"></div></div>
+        </div>
+        <div class="prog-item">
+          <div class="prog-top"><span class="prog-name">Utilities (Water &amp; Electricity)</span></div>
+          <div class="prog-nums"><span>Budget: $812,600</span><span>Actual: $404,667</span></div>
+          <div class="prog-track"><div class="prog-bar" style="width:49.8%;background:var(--orange);"></div></div>
+        </div>
+        <div class="prog-item">
+          <div class="prog-top"><span class="prog-name">Subscriptions / Periodicals</span></div>
+          <div class="prog-nums"><span>Budget: $644,496</span><span>Actual: $276,167</span></div>
+          <div class="prog-track"><div class="prog-bar" style="width:42.8%;background:var(--green);"></div></div>
+        </div>
+        <div class="prog-item">
+          <div class="prog-top"><span class="prog-name">Travel</span></div>
+          <div class="prog-nums"><span>Budget: $207,536</span><span>Actual: $21,559</span></div>
+          <div class="prog-track"><div class="prog-bar" style="width:10.4%;background:var(--yellow);"></div></div>
+        </div>
+        <div class="prog-item">
+          <div class="prog-top"><span class="prog-name">Recruitment &amp; Expatriation</span></div>
+          <div class="prog-nums"><span>Budget: $221,665</span><span>Actual: $73,733</span></div>
+          <div class="prog-track"><div class="prog-bar" style="width:33.3%;background:var(--orange);"></div></div>
+        </div>
+        <div class="prog-item">
+          <div class="prog-top"><span class="prog-name">Facilities &amp; Lease</span></div>
+          <div class="prog-nums"><span>Budget: $1,174,925</span><span>Actual: $525,278</span></div>
+          <div class="prog-track"><div class="prog-bar" style="width:44.7%;background:var(--purple);"></div></div>
+        </div>
+        <div class="prog-item">
+          <div class="prog-top"><span class="prog-name">Telephone / Communications</span></div>
+          <div class="prog-nums"><span>Budget: $528,388</span><span>Actual: $86,844</span></div>
+          <div class="prog-track"><div class="prog-bar" style="width:16.4%;background:var(--navy);"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="card">
+      <div class="card-title"><span class="ct-dot ct-teal"></span>Unrestricted — Personnel Sub-Categories (YTD Actual)</div>
+      <div class="chart-wrap" style="height:220px;"><canvas id="personnelChart"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="ct-dot ct-orange"></span>Unrestricted — Operating Costs Breakdown (YTD Actual)</div>
+      <div class="chart-wrap" style="height:220px;"><canvas id="opsChart"></canvas></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== STRATEGIC GOALS ===== -->
+<div class="section" id="tab-strategic">
+  <div class="sec-head">
+    <div class="sec-num">04 · Strategic Goals</div>
+    <h2>Strategic Goals — Progress &amp; Status</h2>
+    <p>CMI's five strategic pillars and current progress indicators · AY 2025–2026</p>
+  </div>
+
+  <!-- MISSION STATEMENT -->
+  <div style="background:var(--navy);border-radius:3px;padding:28px 36px;margin-bottom:18px;position:relative;overflow:hidden;">
+    <div style="position:absolute;top:0;left:0;bottom:0;width:4px;background:var(--orange);"></div>
+    <div style="font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:10px;">Mission Statement</div>
+    <p style="font-family:'Playfair Display',serif;font-size:17px;font-weight:400;font-style:italic;color:#ffffff;line-height:1.75;max-width:860px;">
+      "The College of the Marshall Islands shall prioritize student success through access to education, cultural resources, research, and career guidance to prepare students to navigate their communities as global citizens."
+    </p>
+    <div style="margin-top:14px;display:flex;align-items:center;gap:10px;">
+      <div style="width:24px;height:1px;background:rgba(255,255,255,0.3);"></div>
+      <span style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.4);">College of the Marshall Islands</span>
+    </div>
+  </div>
+
+  <div class="g2 mb">
+    <div class="goal-card"><div class="goal-num">01</div><div class="goal-body"><div class="goal-pill gp-teal">Academic Quality</div><h3>Strengthen Academic Programs &amp; Student Learning</h3><p>AA in Marshallese Studies launched (world's first). Full CC in IT Support Level 1 launch. English Bridge Program achieved 24% direct credit placement. AS Nursing curriculum under comprehensive review. ASEN accreditation candidacy application in progress.</p></div></div>
+    <div class="goal-card"><div class="goal-num">02</div><div class="goal-body"><div class="goal-pill gp-teal">Enrollment &amp; Access</div><h3>Expand Access &amp; Increase Enrollment</h3><p>SP26 enrollment reached 1,033 (+6%). ABE serving 300+ learners across Uliga, Kwajalein, Wotje, Jaluit, and Kili. New sub-centers in Likiep and Ejit in development. Summer 2026 target: 500 students. First-Time student enrollment declined 38% — pipeline needs attention.</p></div></div>
+    <div class="goal-card"><div class="goal-num">03</div><div class="goal-body"><div class="goal-pill gp-orange">Workforce</div><h3>Advance Workforce Development</h3><p>TVET Boot Camp: 76 participants, 97% completion, 92% employment rate (2025). Maritime program graduated first CC-RFPNW/CC-RFPERW students — 100% workforce entry. New TVET building at Arrak opened April 15, 2026. Carpentry students building community water-catchment systems.</p></div></div>
+    <div class="goal-card" style="border-left-color:var(--red);"><div class="goal-num" style="color:var(--red);">04</div><div class="goal-body"><div class="goal-pill gp-red">Accreditation</div><h3>Maintain &amp; Strengthen Accreditation</h3><p>ACCJC Warning — audits due November 1, 2026. ISER due August 1, 2027. Land Grant $100K secured. See the <strong>Accreditation tab</strong> for full details, committee structure, timelines, and standards coverage.</p></div></div>
+    <div class="goal-card"><div class="goal-num">05</div><div class="goal-body"><div class="goal-pill gp-orange">Financial Health</div><h3>Ensure Financial Sustainability</h3><p>Combined FY26 budget: $17.92M (Restricted $8.55M + Unrestricted $9.37M). Restricted utilization at 37.7%, Unrestricted at 36.7% — significant budget available. Pursuing Educational Talent Search Grant ($250K/yr) and other federal funding.</p></div></div>
+    <div class="goal-card" style="border-left-color:var(--purple);"><div class="goal-num" style="color:var(--purple);">06</div><div class="goal-body"><div class="goal-pill" style="background:rgba(109,76,158,0.1);color:var(--purple);">Leadership</div><h3>Strengthen Institutional Leadership &amp; Governance</h3><p>Presidential hire and VPBAA search posted. Interim President in place. CMI Retreat held to align all-college priorities. Four ISER committees co-chaired by faculty and staff. ACCJC liaison visit conducted. Dean of WAVES position being filled for fall 2026.</p></div></div>
+  </div>
+
+  <div class="card mb">
+    <div class="card-title"><span class="ct-dot ct-teal"></span>Current Goals — Near-Term Action Items</div>
+    <div class="g2">
+      <div class="tl">
+        <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot"></div><div class="tl-line"></div></div><div><div class="tl-period">Summer 2026</div><div class="tl-text">Reach headcount enrollment of <strong>500 students</strong> for Summer semester.</div></div></div>
+        <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--orange)"></div><div class="tl-line"></div></div><div><div class="tl-period">May 2026</div><div class="tl-text">May 21 Main Graduation (first CC-IT Level 1 graduates) · May 20 ABE Ceremony · May 26 Ebeye Ceremony.</div></div></div>
+        <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--green)"></div><div class="tl-line"></div></div><div><div class="tl-period">Spring–Fall 2026</div><div class="tl-text">Complete <strong>ASN curriculum review</strong> for fall implementation. Submit initial <strong>ASEN accreditation application</strong>.</div></div></div>
+        <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--purple)"></div></div><div><div class="tl-period">Grant Pursuit</div><div class="tl-text">Submit <strong>Educational Talent Search Grant</strong> application ($250K/yr for grades 6–12 college access activities).</div></div></div>
+      </div>
+      <div class="tl">
+        <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--red)"></div><div class="tl-line"></div></div><div><div class="tl-period">Nov 1, 2026 — Deadline</div><div class="tl-text">Submit FY2022, FY2023, FY2024 <strong>audits + ACCJC Special Report</strong> to resolve Warning status.</div></div></div>
+        <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--orange)"></div><div class="tl-line"></div></div><div><div class="tl-period">Fall 2026</div><div class="tl-text">Complete <strong>English Bridge Program</strong> second round assessments for 12th grade PSS students.</div></div></div>
+        <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--teal)"></div><div class="tl-line"></div></div><div><div class="tl-period">Hiring</div><div class="tl-text">Complete hiring of <strong>Dean of WAVES</strong>, President, VPBAA, and nursing faculty needed for fall semester.</div></div></div>
+        <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--navy)"></div></div><div><div class="tl-period">Aug 1, 2027</div><div class="tl-text"><strong>Institutional Self Evaluation Report (ISER)</strong> due to ACCJC — four committees already formed.</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== HIGHLIGHTS ===== -->
+<div class="section" id="tab-quarterly">
+  <div class="sec-head">
+    <div class="sec-num">05 · Quarterly Reports</div>
+    <h2>Quarterly Reports — FY 2025–2026</h2>
+    <p>Academic, enrollment, and operational highlights by quarter</p>
+  </div>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--teal);border-radius:3px;padding:22px 28px;margin-bottom:22px;">
+    <div style="font-size:10px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:10px;">Purpose &amp; Function</div>
+    <p style="font-size:13px;color:var(--text2);line-height:1.85;">The purpose of this  Quarterly Progress Report (QPR) is to provide a detailed summary of CMI's overall ongoing progress.
+This report bridges the gap between the institution mission and strategic goals through the presentation of data-driven quarterly results and offers a comprehensive overview of the coisllege’s performance by integrating diverse academic/operational data and qualitative highlights. Ultimately, this QPR is designed to provide essential information and ensure high level of transparency required by governing bodies and relevant stakeholders..</p>
+  </div>
+
+  <!-- Q NAV PILLS -->
+  <div style="display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap;">
+    <button onclick="showQ('q1',this)" class="q-pill q-active">Q1 · Oct–Dec 2025</button>
+    <button onclick="showQ('q2',this)" class="q-pill">Q2 · Jan–Mar 2026</button>
+    <button onclick="showQ('q3',this)" class="q-pill">Q3 · Apr–Jun 2026</button>
+    <button onclick="showQ('q4',this)" class="q-pill">Q4 · Jul–Sep 2026</button>
+  </div>
+
+  <!-- Q1 -->
+  <div class="q-section active" id="q1">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+      <div style="background:var(--teal);color:#fff;font-size:11px;font-weight:700;padding:4px 14px;border-radius:2px;letter-spacing:0.06em;text-transform:uppercase;">Q1 · FY 2025–2026</div>
+      <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--navy);">October — December 2025</div>
+    </div>
+    <div class="g4 mb">
+      <div class="kpi k-teal"><div class="kpi-label">Fall 2025 Enrollment</div><div class="kpi-val" style="font-size:34px;">978</div><div class="kpi-sub">Unduplicated headcount</div></div>
+      <div class="kpi k-orange"><div class="kpi-label">New Programs Launched</div><div class="kpi-val" style="font-size:34px;">2</div><div class="kpi-sub">CC Special Ed + CC IT Level 1</div></div>
+      <div class="kpi k-green"><div class="kpi-label">English Bridge</div><div class="kpi-val" style="font-size:34px;">24%</div><div class="kpi-sub">Qualified for credit courses</div></div>
+      <div class="kpi k-purple"><div class="kpi-label">IQBE Grant Sites Visited</div><div class="kpi-val" style="font-size:34px;">3</div><div class="kpi-sub">Kwajalein, Wotje, Jaluit</div></div>
+    </div>
+    <div class="g2 mb">
+      <div class="card">
+        <div class="card-title"><span class="ct-dot ct-teal"></span>Academic &amp; Program Updates</div>
+        <div class="tl">
+          <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot"></div><div class="tl-line"></div></div><div><div class="tl-period">Leadership</div><div class="tl-text"><strong>Interim President started</strong> — providing institutional stability during presidential search.</div></div></div>
+          <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--orange)"></div><div class="tl-line"></div></div><div><div class="tl-period">New Online Certificate</div><div class="tl-text">CMI launched its <strong>first fully online certificate program</strong> — CC in Special Education — enabling in-service teachers on neighbor islands to enroll without relocating.</div></div></div>
+          <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--green)"></div><div class="tl-line"></div></div><div><div class="tl-period">IT Support Level 1</div><div class="tl-text">Fall 2025 saw the <strong>full launch of the Certificate of Completion in IT Support Level 1</strong>, with first graduates expected May 2026.</div></div></div>
+          <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--purple)"></div><div class="tl-line"></div></div><div><div class="tl-period">English Bridge Program</div><div class="tl-text">First cohort of 12th grade PSS students completed the program. <strong>24% qualified to enter credit-level courses directly</strong> — a result of two years of faculty-PSS collaboration.</div></div></div>
+          <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--red)"></div><div class="tl-line"></div></div><div><div class="tl-period">Kwajalein Campus</div><div class="tl-text">Major facility upgrades completed: new classroom furniture, 10 student laptops, headsets, and server rack. <strong>101 ABE students registered</strong> for Fall 2025. Summer Boot Camp graduated <strong>35 participants</strong> including 3 women in Automotive and Welding.</div></div></div>
+          <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--yellow)"></div></div><div><div class="tl-period">Community Engagement</div><div class="tl-text">Notable <strong>Urban Resilience Project (URP)</strong> presentation engaged students from STEM, Education, Liberal Arts, and Nursing in national challenge discussions.</div></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="ct-dot ct-orange"></span>Accreditation &amp; Institutional</div>
+        <div class="tl">
+          <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--orange)"></div><div class="tl-line"></div></div><div><div class="tl-period">IQBE Grant — Final Year</div><div class="tl-text">With ADB IQBE Grant support, department faculty visited <strong>Kwajalein Campus (Ebeye), Wotje Center, and Jaluit Center</strong>. FY2025 marks the final year of this grant.</div></div></div>
+          <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--teal)"></div><div class="tl-line"></div></div><div><div class="tl-period">ISER Committee Work</div><div class="tl-text">Four ISER committees continued gathering documentation across all standard areas. All-college input session held at the <strong>November 2025 Retreat</strong>.</div></div></div>
+          <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--green)"></div><div class="tl-line"></div></div><div><div class="tl-period">Nursing Faculty Hire</div><div class="tl-text">New nursing faculty hired with <strong>PhD in Hospital Administration, MBA in Health Care Services, and MSc in Nursing</strong> — critical for ASEN accreditation pathway.</div></div></div>
+          <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--purple)"></div></div><div><div class="tl-period">Arrak Campus</div><div class="tl-text">Progress on new four-room technical training center funded by World Bank through the <strong>Education and Skills Strengthening Project</strong>. ABE classes, cafeteria, and Zoom instruction all operational.</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="q-section" id="q2" style="display:none;">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+      <div style="background:var(--orange);color:#fff;font-size:11px;font-weight:700;padding:4px 14px;border-radius:2px;letter-spacing:0.06em;text-transform:uppercase;">Q2 · FY 2025–2026</div>
+      <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--navy);">January — March 2026</div>
+    </div>
+    <div class="g4 mb">
+      <div class="kpi k-teal"><div class="kpi-label">Spring Enrollment</div><div class="kpi-val" style="font-size:34px;">1,033</div><div class="kpi-sub">+6% from Spring 2025</div></div>
+      <div class="kpi k-green"><div class="kpi-label">New Degree Launched</div><div class="kpi-val" style="font-size:34px;">1st</div><div class="kpi-sub">AA in Marshallese Studies</div></div>
+      <div class="kpi k-orange"><div class="kpi-label">FSM Nursing Students</div><div class="kpi-val" style="font-size:34px;">9</div><div class="kpi-sub">International pipeline</div></div>
+      <div class="kpi k-yellow"><div class="kpi-label">Sea-Time Students</div><div class="kpi-val" style="font-size:34px;">22</div><div class="kpi-sub">Guided through maritime training</div></div>
+    </div>
+    <div class="g2 mb">
+      <div class="card">
+        <div class="card-title"><span class="ct-dot ct-teal"></span>Academic &amp; Program Updates</div>
+        <div class="tl">
+          <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot"></div><div class="tl-line"></div></div><div><div class="tl-period">AA in Marshallese Studies</div><div class="tl-text">The <strong>world's first degree in Marshallese language, culture, and studies</strong> was formally offered in Spring 2026, marking a historic milestone for CMI and the Marshall Islands.</div></div></div>
+          <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--orange)"></div><div class="tl-line"></div></div><div><div class="tl-period">Marine Science</div><div class="tl-text">Two marine science students presented their research at the <strong>"I Rikesan i Tasi" (Riches of the Sea) Festival</strong> in Guam — expanding CMI's national and regional academic presence.</div></div></div>
+          <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--green)"></div><div class="tl-line"></div></div><div><div class="tl-period">Nursing Shortage Response</div><div class="tl-text">CMI participated in a multi-stakeholder meeting on the <strong>RMI nursing shortage</strong>. Plans developed for CNA programs in high schools and LPN certificates as stepping stones to the ASN degree.</div></div></div>
+          <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--purple)"></div><div class="tl-line"></div></div><div><div class="tl-period">Wheel-a-thon</div><div class="tl-text">CMI held a Wheel-a-thon event with MIDPO as part of <strong>first-year experience service learning</strong> activities — strengthening community connection for new students.</div></div></div>
+          <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--yellow)"></div></div><div><div class="tl-period">Maritime &amp; FFA</div><div class="tl-text">Maritime instructors presented CMI programs at the <strong>Forum Fisheries Agency (FFA) 7th Maritime College Seminar</strong> in the Solomon Islands — deepening regional partnerships.</div></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="ct-dot ct-orange"></span>Enrollment Highlights</div>
+        <div class="stat-row">
+          <div class="stat-item"><div class="stat-lr"><span class="stat-name">Total Headcount (Unduplicated)</span><span class="stat-pct">1,033</span></div><div class="bar-track"><div class="bar-fill f-teal" style="width:85%"></div></div></div>
+          <div class="stat-item"><div class="stat-lr"><span class="stat-name">Full-Time Equivalent</span><span class="stat-pct">695</span></div><div class="bar-track"><div class="bar-fill f-orange" style="width:70%"></div></div></div>
+          <div class="stat-item"><div class="stat-lr"><span class="stat-name">Continuing Students</span><span class="stat-pct">79.19%</span></div><div class="bar-track"><div class="bar-fill f-green" style="width:79.19%"></div></div></div>
+          <div class="stat-item"><div class="stat-lr"><span class="stat-name">First-Time Students</span><span class="stat-pct">9.49%</span></div><div class="bar-track"><div class="bar-fill f-red" style="width:9.49%"></div></div></div>
+          <div class="stat-item"><div class="stat-lr"><span class="stat-name">Special Programs Participants</span><span class="stat-pct">88%</span></div><div class="bar-track"><div class="bar-fill f-purple" style="width:88%"></div></div></div>
+          <div class="stat-item"><div class="stat-lr"><span class="stat-name">Financial Aid — Satisfactory</span><span class="stat-pct">64%</span></div><div class="bar-track"><div class="bar-fill f-yellow" style="width:64%"></div></div></div>
+        </div>
+        <div style="margin-top:14px;" class="callout">
+          <div class="callout-icon">📈</div>
+          <div><h4>Growth Context</h4><p>Spring 2026 enrollment of 1,033 represents a <strong>+6% increase</strong> from Spring 2025 (978) and a recovery toward the Spring 2022 peak of 1,218.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="q-section" id="q3" style="display:none;">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+      <div style="background:var(--green);color:#fff;font-size:11px;font-weight:700;padding:4px 14px;border-radius:2px;letter-spacing:0.06em;text-transform:uppercase;">Q3 · FY 2025–2026</div>
+      <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--navy);">April — June 2026</div>
+    </div>
+    <div class="g4 mb">
+      <div class="kpi k-teal"><div class="kpi-label">Land Grant Funding</div><div class="kpi-val" style="font-size:34px;">$100K</div><div class="kpi-sub">Confirmed for accreditation</div></div>
+      <div class="kpi k-orange"><div class="kpi-label">TVET Building</div><div class="kpi-val" style="font-size:34px;">Apr 15</div><div class="kpi-sub">Opened at Arrak Campus</div></div>
+      <div class="kpi k-green"><div class="kpi-label">Graduation Ceremonies</div><div class="kpi-val" style="font-size:34px;">3</div><div class="kpi-sub">Majuro, Ebeye, outer islands</div></div>
+      <div class="kpi k-red"><div class="kpi-label">ACCJC Deadline</div><div class="kpi-val" style="font-size:34px;">Nov 1</div><div class="kpi-sub">Audit submission required</div></div>
+    </div>
+    <div class="g2 mb">
+      <div class="card">
+        <div class="card-title"><span class="ct-dot ct-green"></span>Key Events — April to June 2026</div>
+        <div class="tl">
+          <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot"></div><div class="tl-line"></div></div><div><div class="tl-period">Presidential Search</div><div class="tl-text"><strong>Presidential Hiring and VPBAA advertisement</strong> posted — beginning the formal process to fill senior leadership positions.</div></div></div>
+          <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--orange)"></div><div class="tl-line"></div></div><div><div class="tl-period">Annual CMI Retreat — April 15</div><div class="tl-text">Kickoff with <strong>opening and blessing of new TVET building at Arrak Campus</strong>. All-college participation in strategic planning and ISER progress review.</div></div></div>
+          <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--green)"></div><div class="tl-line"></div></div><div><div class="tl-period">Land Grant Meeting — April 20</div><div class="tl-text">Successfully hosted Land Grant Meeting. Confirmed <strong>$100,000 contribution from LG Endowment Fund</strong> to assist with accreditation work.</div></div></div>
+          <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--teal)"></div><div class="tl-line"></div></div><div><div class="tl-period">May 2026 Graduations</div><div class="tl-text"><strong>Main Ceremony: May 21</strong> (first CC-IT Level 1 graduates) · <strong>ABE Ceremony: May 20</strong> (Wotje, Jaluit, Kili graduates) · <strong>Ebeye Ceremony: May 26</strong> (Santo sub-center graduates).</div></div></div>
+          <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--purple)"></div></div><div><div class="tl-period">Ongoing Priorities</div><div class="tl-text">Complete ASN curriculum review, finalize ASEN application, second round English Bridge assessments, and complete faculty hiring for Fall 2026.</div></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="ct-dot ct-red"></span>Accreditation Watch</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div class="callout c-red"><div class="callout-icon">⚠️</div><div><h4>ACCJC Warning — November 1, 2026 Deadline</h4><p>CMI must submit FY2022, FY2023, and FY2024 audits plus a Special Report. Resolving this is the institution's top compliance priority for Q3–Q4.</p></div></div>
+          <div class="callout"><div class="callout-icon">📋</div><div><h4>ISER Progress</h4><p>Four ISER committees active and gathering evidence. Second all-college alignment session held at April 15 Retreat. ISER due August 1, 2027.</p></div></div>
+          <div class="callout c-green"><div class="callout-icon">💰</div><div><h4>Land Grant $100K</h4><p>Approved week of April 20, 2026 from the Land Grant Endowment Fund specifically to support accreditation activities.</p></div></div>
+          <div class="callout c-orange"><div class="callout-icon">🎓</div><div><h4>May 2025 Awards (Prior Year)</h4><p>38 Bachelor's degrees · 150 Associate degrees · 84 Certificates · 78 HS Equivalency diplomas. First CC-RFPNW and CC-RFPERW graduates — 100% workforce entry.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="q-section" id="q4" style="display:none;">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:28px;">
+      <div style="background:var(--navy);color:#fff;font-size:11px;font-weight:700;padding:4px 14px;border-radius:2px;letter-spacing:0.06em;text-transform:uppercase;">Q4 · FY 2025–2026</div>
+      <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--navy);">July — September 2026</div>
+    </div>
+    <div style="text-align:center;padding:64px 32px;background:var(--surface);border:1px solid var(--border);border-radius:3px;border-top:3px solid var(--border);">
+      <div style="font-size:48px;margin-bottom:16px;">📋</div>
+      <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--navy);margin-bottom:10px;">No Data Available Yet</div>
+      <div style="font-size:13px;color:var(--text3);max-width:420px;margin:0 auto;line-height:1.7;">Q4 covers July — September 2026. This quarter has not yet begun. Data and reporting will be available once the quarter is complete.</div>
+      <div style="margin-top:20px;display:inline-flex;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--border);border-radius:2px;padding:8px 18px;">
+        <div style="width:8px;height:8px;border-radius:50%;background:var(--orange);"></div>
+        <span style="font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:0.1em;">Forthcoming · Jul – Sep 2026</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" id="tab-accreditation">
+  <div class="sec-head">
+    <div class="sec-num">06 · Accreditation</div>
+    <h2>ACCJC Accreditation — Status &amp; Progress</h2>
+    <p>Warning status, ISER preparation, committee structure, and key deadlines · AY 2025–2026</p>
+  </div>
+
+  <!-- STATUS KPIs -->
+  <div class="g4 mb">
+    <div class="kpi k-red">
+      <div class="kpi-label">Current Status</div>
+      <div class="kpi-val" style="font-size:26px;line-height:1.2;">Warning</div>
+      <div class="kpi-sub">Issued by ACCJC · Active</div>
+    </div>
+    <div class="kpi k-orange">
+      <div class="kpi-label">Audit Submission Deadline</div>
+      <div class="kpi-val" style="font-size:26px;line-height:1.2;">Nov 1, 2026</div>
+      <div class="kpi-sub">FY2022, 2023 &amp; 2024 audits due</div>
+    </div>
+    <div class="kpi k-yellow">
+      <div class="kpi-label">ISER Due Date</div>
+      <div class="kpi-val" style="font-size:26px;line-height:1.2;">Aug 1, 2027</div>
+      <div class="kpi-sub">Institutional Self Evaluation Report</div>
+    </div>
+    <div class="kpi k-green">
+      <div class="kpi-label">Land Grant Support</div>
+      <div class="kpi-val" style="font-size:26px;line-height:1.2;">$100K</div>
+      <div class="kpi-sub">Confirmed April 20, 2026</div>
+    </div>
+  </div>
+
+  <!-- WARNING BANNER -->
+  <div style="background:linear-gradient(135deg,#fff5f5,#fff);border:1px solid #f5c6c6;border-left:4px solid var(--red);border-radius:3px;padding:22px 26px;margin-bottom:18px;display:flex;gap:18px;align-items:flex-start;">
+    <div style="font-size:32px;flex-shrink:0;">⚠️</div>
+    <div>
+      <div style="font-size:10px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:6px;">ACCJC Warning Status — Active</div>
+      <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--navy);margin-bottom:8px;">Audits &amp; Special Report Required by November 1, 2026</div>
+      <p style="font-size:13px;color:var(--text2);line-height:1.7;">CMI submitted its Midterm Report to ACCJC in March 2025, which was accepted at ACCJC's June 2025 meeting. However, due to delayed audits, CMI was placed on <strong>Warning</strong> with the requirement to submit the FY2022, FY2023, and FY2024 audits, along with a Special Report to the Commission, <strong>no later than November 1, 2026.</strong> Failure to meet this deadline could escalate the sanction level.</p>
+    </div>
+  </div>
+
+  <!-- TIMELINE + WHAT IS ACCJC -->
+  <div class="row mb">
+    <div class="card" style="flex:1.2;">
+      <div class="card-title"><span class="ct-dot ct-red"></span>Accreditation Key Deadlines &amp; Milestones</div>
+      <div class="tl">
+        <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--green)"></div><div class="tl-line"></div></div><div><div class="tl-period">March 2025 — Completed</div><div class="tl-text"><strong>Midterm Report submitted</strong> to ACCJC on schedule — covering changes at the college since the prior comprehensive review.</div></div></div>
+        <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--green)"></div><div class="tl-line"></div></div><div><div class="tl-period">June 2025 — Completed</div><div class="tl-text"><strong>Midterm Report accepted</strong> by ACCJC at its June meeting — demonstrating CMI met core reporting requirements.</div></div></div>
+        <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--orange)"></div><div class="tl-line"></div></div><div><div class="tl-period">April 2025 — Completed</div><div class="tl-text">ACCJC Staff Liaison visited CMI to provide <strong>training for ISER preparation</strong>. Four committees subsequently formed.</div></div></div>
+        <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--orange)"></div><div class="tl-line"></div></div><div><div class="tl-period">Nov 2025 — Completed</div><div class="tl-text">All-college <strong>Retreat input session</strong> — all employees provided updates and input on standards progress.</div></div></div>
+        <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--orange)"></div><div class="tl-line"></div></div><div><div class="tl-period">April 15, 2026 — Completed</div><div class="tl-text">Second all-college input session at the <strong>CMI Retreat</strong>. Land Grant $100K confirmed for accreditation work week of April 20.</div></div></div>
+        <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--red)"></div><div class="tl-line"></div></div><div><div class="tl-period">November 1, 2026 — CRITICAL DEADLINE</div><div class="tl-text">Submit <strong>FY2022, FY2023, and FY2024 audits + ACCJC Special Report</strong>. This is the institution's highest compliance priority. Missing this deadline risks sanction escalation.</div></div></div>
+        <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--navy)"></div></div><div><div class="tl-period">August 1, 2027 — ISER Due</div><div class="tl-text"><strong>Institutional Self Evaluation Report (ISER)</strong> must be submitted to ACCJC. This is CMI's comprehensive accreditation self-study, covering all four standards areas.</div></div></div>
+      </div>
+    </div>
+    <div class="card" style="flex:1;">
+      <div class="card-title"><span class="ct-dot ct-teal"></span>About ACCJC</div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:14px;">
+        The <strong style="color:var(--navy);">Accrediting Commission for Community and Junior Colleges (ACCJC)</strong> is CMI's regional accreditor. ACCJC accreditation affirms that CMI meets established standards of quality and is authorized to award degrees and certificates recognized by U.S. federal and state agencies.
+      </div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:14px;">
+        <strong style="color:var(--navy);">Why it matters:</strong> Accreditation is required for students to access federal financial aid, for CMI's degrees to be recognized by employers and transfer institutions, and for the college to remain eligible for federal grant programs including Title IV.
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div class="callout c-orange">
+          <div class="callout-icon">📌</div>
+          <div><h4>Warning vs. Probation</h4><p>Warning is the first level of sanction. If CMI fails to meet the November 1 deadline, ACCJC could escalate to Probation or Show Cause — a serious outcome that could affect student aid eligibility.</p></div>
+        </div>
+        <div class="callout c-green">
+          <div class="callout-icon">✅</div>
+          <div><h4>Midterm Accepted</h4><p>ACCJC accepted CMI's Midterm Report in June 2025 — confirming the college has made meaningful progress on its core standards since the last comprehensive review.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ISER COMMITTEES -->
+  <div class="card mb">
+    <div class="card-title"><span class="ct-dot ct-teal"></span>ISER Committees — Structure &amp; Standards Coverage</div>
+    <div style="font-size:13px;color:var(--text2);margin-bottom:16px;">Following the ACCJC liaison visit in April 2025, CMI formed four committees to develop the Institutional Self Evaluation Report. Each committee is <strong>co-chaired by a faculty and a staff member</strong> and is responsible for gathering documentation and evidence for their respective standards area.</div>
+    <div class="g2" style="gap:12px;">
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:18px;border-top:3px solid var(--teal);">
+        <div style="font-size:10px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;">Standard I</div>
+        <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--navy);margin-bottom:8px;">Institutional Mission &amp; Effectiveness</div>
+        <p style="font-size:12px;color:var(--text2);line-height:1.6;">Covers CMI's mission statement, institutional planning, program review processes, and how the college evaluates its own effectiveness in achieving mission-driven outcomes.</p>
+      </div>
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:18px;border-top:3px solid var(--orange);">
+        <div style="font-size:10px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;">Standard II</div>
+        <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--navy);margin-bottom:8px;">Student Success</div>
+        <p style="font-size:12px;color:var(--text2);line-height:1.6;">Covers instructional programs, student support services, library and learning resources, and how CMI ensures students achieve stated learning outcomes and completion goals.</p>
+      </div>
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:18px;border-top:3px solid var(--green);">
+        <div style="font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;">Standard III</div>
+        <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--navy);margin-bottom:8px;">Infrastructure &amp; Resources</div>
+        <p style="font-size:12px;color:var(--text2);line-height:1.6;">Covers human resources, physical and technology infrastructure, financial resources, and the college's capacity to sustain and improve operations in support of its mission.</p>
+      </div>
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:18px;border-top:3px solid var(--purple);">
+        <div style="font-size:10px;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;">Standard IV</div>
+        <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--navy);margin-bottom:8px;">Governance &amp; Decision-Making</div>
+        <p style="font-size:12px;color:var(--text2);line-height:1.6;">Covers board governance, administrative leadership, faculty and staff participation in shared governance, and how CMI makes decisions that reflect institutional integrity and accountability.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- NURSING ACCREDITATION + ACTION ITEMS -->
+  <div class="row">
+    <div class="card" style="flex:1;">
+      <div class="card-title"><span class="ct-dot ct-yellow"></span>Nursing Programmatic Accreditation — ASEN Pathway</div>
+      <div class="tl">
+        <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--orange)"></div><div class="tl-line"></div></div><div><div class="tl-period">Target: April 2026</div><div class="tl-text"><strong>Initial ASEN application</strong> — programmatic accreditor for associate-level nursing programs. This begins the formal candidacy process separate from ACCJC institutional accreditation.</div></div></div>
+        <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--teal)"></div><div class="tl-line"></div></div><div><div class="tl-period">Key Prerequisite</div><div class="tl-text">New nursing faculty hired with <strong>PhD in Hospital Administration, MBA, and MSc in Nursing</strong> — a required step toward programmatic accreditation candidacy.</div></div></div>
+        <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--green)"></div></div><div><div class="tl-period">Long-Term Goal</div><div class="tl-text">ASEN candidacy → full accreditation → enables development of a <strong>Bachelor's degree in Nursing</strong> and strengthens CMI's regional healthcare training capacity.</div></div></div>
+      </div>
+    </div>
+    <div class="card" style="flex:1.2;">
+      <div class="card-title"><span class="ct-dot ct-red"></span>Priority Action Items — Accreditation</div>
+      <div style="display:flex;flex-direction:column;gap:9px;">
+        <div class="callout c-red"><div class="callout-icon">🔴</div><div><h4>HIGH PRIORITY: Submit FY2022–2024 Audits</h4><p>Deadline: November 1, 2026. Must include all three fiscal year audits plus the ACCJC Special Report to resolve Warning status.</p></div></div>
+        <div class="callout c-orange"><div class="callout-icon">🟠</div><div><h4>Continue ISER Evidence Gathering</h4><p>All four committees must continue systematic documentation across all standards. Target completion well ahead of August 1, 2027 ISER due date.</p></div></div>
+        <div class="callout"><div class="callout-icon">🔵</div><div><h4>Annual Accreditation Report</h4><p>Maintain all annual reporting requirements to ACCJC to demonstrate ongoing compliance during the Warning period.</p></div></div>
+        <div class="callout c-green"><div class="callout-icon">🟢</div><div><h4>Utilize Land Grant $100K</h4><p>Funds confirmed April 20, 2026. Allocate strategically toward audit completion, ISER consultant support, and committee documentation work.</p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" id="tab-highlights">
+  <div class="sec-head">
+    <div class="sec-num">07 · Highlights</div>
+    <h2>Institutional Highlights — AY 2025–2026</h2>
+    <p>Key milestones and new program launches · AY 2025–2026</p>
+  </div>
+
+  <div class="g4 mb">
+    <div class="kpi k-teal"><div class="kpi-label">Bachelor's Degrees (May 2025)</div><div class="kpi-val">38</div><div class="kpi-sub">4-year degrees awarded</div></div>
+    <div class="kpi k-orange"><div class="kpi-label">Associate Degrees (May 2025)</div><div class="kpi-val">150</div><div class="kpi-sub">2-year degrees awarded</div></div>
+    <div class="kpi k-green"><div class="kpi-label">Certificates (May 2025)</div><div class="kpi-val">84</div><div class="kpi-sub">Program certificates</div></div>
+    <div class="kpi k-yellow"><div class="kpi-label">HS Equivalency (May 2025)</div><div class="kpi-val">78</div><div class="kpi-sub">HiSET diplomas</div></div>
+  </div>
+
+  <div class="g3 mb">
+    <div class="hl-card"><div class="hl-tag">🌍 World's First</div><h3>AA in Marshallese Studies</h3><p>Launched Spring 2026 — the first academic degree program in Marshallese language, culture, and studies anywhere in the world.</p></div>
+    <div class="hl-card" style="border-left-color:var(--orange);"><div class="hl-tag" style="color:var(--orange);">💻 New Program</div><h3>CC in IT Support Level 1</h3><p>Fully launched Fall 2025. First graduates expected May 2026. Maritime counterpart programs saw 100% workforce entry — featured in ACCJC white paper.</p></div>
+    <div class="hl-card" style="border-left-color:var(--green);"><div class="hl-tag" style="color:var(--green);">🏫 Pipeline</div><h3>English Bridge Program</h3><p>For 12th grade PSS students — 24% of first cohort completers qualified to enter credit-level courses directly. Second round assessments planned for fall 2026.</p></div>
+  </div>
+
+
+  <!-- UPCOMING PRIORITIES & GOALS (from Q4 Planning) -->
+  <div class="sec-head" style="margin-top:8px;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--border);">
+    <div class="sec-num" style="font-size:10px;color:var(--orange);">Upcoming Priorities &amp; Goals</div>
+    <h2 style="font-size:22px;">Goals &amp; Institutional Outlook — Q4 FY 2025–2026</h2>
+    <p>Planned targets and forward-looking initiatives for July – September 2026 and beyond</p>
+  </div>
+
+  <div class="g4 mb">
+    <div class="kpi k-teal"><div class="kpi-label">Summer 2026 Target</div><div class="kpi-val" style="font-size:38px;">500</div><div class="kpi-sub">Enrollment headcount goal</div></div>
+    <div class="kpi k-orange"><div class="kpi-label">Grant Application</div><div class="kpi-val" style="font-size:38px;">$250K</div><div class="kpi-sub">Ed. Talent Search — per year</div></div>
+    <div class="kpi k-red"><div class="kpi-label">ACCJC Deadline</div><div class="kpi-val" style="font-size:38px;">Nov 1</div><div class="kpi-sub">Audits &amp; Special Report due</div></div>
+    <div class="kpi k-green"><div class="kpi-label">Fall 2026 Planning</div><div class="kpi-val" style="font-size:30px;line-height:1.2;">Hiring<br>Active</div><div class="kpi-sub">Dean of WAVES + faculty</div></div>
+  </div>
+
+  <div class="g2 mb">
+    <div class="card">
+      <div class="card-title"><span class="ct-dot ct-teal"></span>Priorities &amp; Goals</div>
+      <div class="tl">
+        <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--teal)"></div><div class="tl-line"></div></div><div><div class="tl-period">Enrollment — Summer 2026</div><div class="tl-text">Target headcount of <strong>500 students</strong> for Summer 2026 semester across all programs and centers.</div></div></div>
+        <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--orange)"></div><div class="tl-line"></div></div><div><div class="tl-period">Educational Talent Search Grant</div><div class="tl-text">Submit application for the <strong>Educational Talent Search Grant ($250,000/year)</strong> — targeting college access activities for grades 6–12.</div></div></div>
+        <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--green)"></div><div class="tl-line"></div></div><div><div class="tl-period">English Bridge — Round 2</div><div class="tl-text">Complete assessments for the <strong>second round of the English Bridge Program</strong> for grade 12 PSS students.</div></div></div>
+        <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--yellow)"></div><div class="tl-line"></div></div><div><div class="tl-period">ASN Curriculum</div><div class="tl-text">Complete the comprehensive <strong>AS Nursing curriculum review</strong> in time for fall semester implementation.</div></div></div>
+        <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--red)"></div><div class="tl-line"></div></div><div><div class="tl-period">ACCJC — November 1</div><div class="tl-text">Submit FY2022, FY2023, FY2024 <strong>audits + ACCJC Special Report</strong> to resolve Warning status before the deadline.</div></div></div>
+        <div class="tl-item"><div class="tl-dot-col"><div class="tl-dot" style="background:var(--purple)"></div></div><div><div class="tl-period">Faculty &amp; Leadership Hiring</div><div class="tl-text">Complete hiring of <strong>Dean of WAVES</strong>, President, VPBAA, and all faculty needed for Fall 2026 semester.</div></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="ct-dot ct-orange"></span>Looking Ahead — Fall 2026 Readiness</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div class="callout c-green"><div class="callout-icon">🎓</div><div><h4>Recognition of Prior Learning</h4><p>Launch systematic assessments for recognition of prior learning in collaboration with PSS — ensuring experienced teachers receive credit for existing skills and can complete degrees sooner.</p></div></div>
+        <div class="callout"><div class="callout-icon">🏥</div><div><h4>CNA Program Development</h4><p>Finalize the Certified Nursing Assistant program curriculum for placement in RMI high schools, in coordination with MOHHS.</p></div></div>
+        <div class="callout c-orange"><div class="callout-icon">🚢</div><div><h4>ASEN Application</h4><p>Submit initial application to ASEN (programmatic accreditor for associate nursing programs) — beginning the formal candidacy process.</p></div></div>
+        <div class="callout"><div class="callout-icon">📊</div><div><h4>ISER Committees</h4><p>All four ISER committees continue evidence gathering ahead of the August 1, 2027 deadline to ACCJC.</p></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ct-dot ct-orange"></span>May 2026 Graduation — Three Ceremonies</div>
+    <div class="g3" style="margin-top:4px;gap:12px;">
+      <div class="callout"><div class="callout-icon">🎓</div><div><h4>Main Ceremony — May 21, 4:00 PM</h4><p>CMI Basketball Court · First CC in Information Technology Level 1 graduates included.</p></div></div>
+      <div class="callout c-orange"><div class="callout-icon">📜</div><div><h4>ABE Ceremony — May 20, 10:00 AM</h4><p>CMI Basketball Court · Graduates from Wotje, Jaluit, and Kili centers.</p></div></div>
+      <div class="callout c-green"><div class="callout-icon">🏝️</div><div><h4>Ebeye Ceremony — May 26</h4><p>Kwajalein / Ebeye · Graduates from the Santo sub-center.</p></div></div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div><!-- end page-wrap -->
+
+<script>
+const SP = ['SP21','SP22','SP23','SP24','SP25','SP26'];
+const gc = 'rgba(15,30,61,0.07)';
+const tc = '#8a95a8';
+const bf = {family:"'DM Sans',sans-serif",size:11};
+const legCol = '#4a5778';
+
+function baseOpts(extra={}){
+  return {responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:legCol,font:bf,boxWidth:9,padding:10}}},
+    scales:{x:{grid:{color:gc},ticks:{color:tc,font:bf}},y:{grid:{color:gc},ticks:{color:tc,font:bf}}},
+    ...extra};
+}
+function noLeg(o){o.plugins.legend={display:false};return o;}
+
+/* 1. ENROLLMENT TREND */
+new Chart(document.getElementById('trendChart'),{type:'line',data:{labels:SP,datasets:[
+  {label:'All Students',data:[1169,1218,1208,1009,978,1033],borderColor:'#1a8a8a',backgroundColor:'rgba(26,138,138,0.07)',borderWidth:2.5,pointBackgroundColor:'#1a8a8a',pointRadius:5,tension:0.35,fill:true},
+  {label:'Female',data:[625,647,658,539,517,583],borderColor:'#2d8a5e',borderWidth:2,pointBackgroundColor:'#2d8a5e',pointRadius:4,tension:0.35,fill:false},
+  {label:'Male',data:[544,571,550,470,461,450],borderColor:'#c07a28',borderWidth:2,pointBackgroundColor:'#c07a28',pointRadius:4,tension:0.35,fill:false}
+]},options:baseOpts()});
+
+/* 2. GENDER DONUT */
+new Chart(document.getElementById('genderChart'),{type:'doughnut',data:{labels:['Female 583','Male 450'],datasets:[{data:[583,450],backgroundColor:['#1a8a8a','#c07a28'],borderWidth:0,hoverOffset:5}]},options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{display:false}}}});
+
+/* 3. LOCATION */
+new Chart(document.getElementById('locationChart'),{type:'bar',data:{labels:['Uliga Campus','Jaluit Center','Wotje Center','Kwajalein Center'],datasets:[{label:'Share (%)',data:[91.38,4.26,2.23,1.16],backgroundColor:['#1a8a8a','#c07a28','#2d8a5e','#b8860b'],borderRadius:3,borderSkipped:false}]},options:{...noLeg(baseOpts()),indexAxis:'y',scales:{x:{grid:{color:gc},ticks:{color:tc,font:bf,callback:v=>v+'%'}},y:{grid:{color:'transparent'},ticks:{color:tc,font:bf}}}}});
+
+/* 4. DEPT BAR */
+new Chart(document.getElementById('deptBar'),{type:'bar',data:{labels:['Liberal Arts','Business Studies','Elem. Education','Dev. Math','Dev. English','Nursing','WAVES','Marine/IT'],datasets:[{label:'SP26 Enrollment',data:[353,244,263,412,293,111,36,12],backgroundColor:['#1a8a8a','#c07a28','#2d8a5e','#b8860b','#b03030','#22a0a0','#6d4c9e','#9d7bc4'],borderRadius:4,borderSkipped:false}]},options:{...noLeg(baseOpts())}});
+
+/* 5. ENGLISH PLACEMENT */
+new Chart(document.getElementById('engChart'),{type:'doughnut',data:{labels:['Credit 71%','Level 3 17%','Level 2 11%','Audit 1%'],datasets:[{data:[71,17,11,1],backgroundColor:['#1a8a8a','#2d8a5e','#c07a28','#8a95a8'],borderWidth:0,hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{position:'right',labels:{color:legCol,font:{size:10},boxWidth:8,padding:7}}}}});
+
+/* 6. MATH PLACEMENT */
+new Chart(document.getElementById('mathChart'),{type:'doughnut',data:{labels:['Credit 60%','Level 2 28%','Level 3 12%','Audit 0%'],datasets:[{data:[60,28,12,0.5],backgroundColor:['#b8860b','#c07a28','#b03030','#8a95a8'],borderWidth:0,hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{position:'right',labels:{color:legCol,font:{size:10},boxWidth:8,padding:7}}}}});
+
+/* 7. DEV ENGLISH */
+new Chart(document.getElementById('devEngChart'),{type:'line',data:{labels:SP,datasets:[{label:'Dev English',data:[366,434,421,404,624,293],borderColor:'#b03030',backgroundColor:'rgba(176,48,48,0.06)',borderWidth:2.5,pointBackgroundColor:'#b03030',pointRadius:5,tension:0.35,fill:true}]},options:{...noLeg(baseOpts())}});
+
+/* 8. DEV MATH */
+new Chart(document.getElementById('devMathChart'),{type:'line',data:{labels:SP,datasets:[{label:'Dev Math',data:[512,542,511,445,657,412],borderColor:'#b8860b',backgroundColor:'rgba(184,134,11,0.06)',borderWidth:2.5,pointBackgroundColor:'#b8860b',pointRadius:5,tension:0.35,fill:true}]},options:{...noLeg(baseOpts())}});
+
+/* 9. FIRST-TIME */
+new Chart(document.getElementById('firstTimeChart'),{type:'line',data:{labels:SP,datasets:[{label:'First-Time',data:[141,115,111,143,158,98],borderColor:'#c07a28',backgroundColor:'rgba(192,122,40,0.06)',borderWidth:2.5,pointBackgroundColor:'#c07a28',pointRadius:5,tension:0.35,fill:true}]},options:{...noLeg(baseOpts())}});
+
+/* 10. GRADUATION */
+new Chart(document.getElementById('gradChart'),{type:'bar',data:{labels:["Bachelor's","Associate","Certificates","HS Equiv."],datasets:[{label:'May 2025 Awards',data:[38,150,84,78],backgroundColor:['#1a8a8a','#2d8a5e','#b8860b','#c07a28'],borderRadius:4,borderSkipped:false}]},options:{...noLeg(baseOpts())}});
+
+/* 11. COMBINED BUDGET vs ACTUAL */
+new Chart(document.getElementById('combinedBudgetChart'),{type:'bar',data:{
+  labels:['Personnel','Travel','Recruitment & Expat.','Contractual','Materials','Utilities','Subscriptions','Facilities','Equip. & Other'],
+  datasets:[
+    {label:'Restricted Budget',data:[4075122,798510,1306587,419610,80000,9771,319587,607570],backgroundColor:'rgba(26,138,138,0.3)',borderColor:'#1a8a8a',borderWidth:1.5,borderRadius:3},
+    {label:'Restricted Actual',data:[1835915,319585,702715,57315,0,4868,25646,33909],backgroundColor:'rgba(26,138,138,0.7)',borderColor:'#1a8a8a',borderWidth:0,borderRadius:3},
+    {label:'Unrestricted Budget',data:[3902678,207536,221665,433608,926146,812600,644496,1174925,477053],backgroundColor:'rgba(192,122,40,0.3)',borderColor:'#c07a28',borderWidth:1.5,borderRadius:3},
+    {label:'Unrestricted Actual',data:[1868431,21559,73733,14219,307579,404667,276167,525278,26440],backgroundColor:'rgba(192,122,40,0.7)',borderColor:'#c07a28',borderWidth:0,borderRadius:3},
+  ]},options:{...baseOpts(),scales:{x:{grid:{color:gc},ticks:{color:tc,font:{...bf,size:9},maxRotation:25}},y:{grid:{color:gc},ticks:{color:tc,font:bf,callback:v=>'$'+(v/1000).toFixed(0)+'K'}}}}});
+
+/* 12. UTILIZATION DONUT */
+new Chart(document.getElementById('utilChart'),{type:'doughnut',data:{labels:['Restricted Used','Restricted Available'],datasets:[{data:[3219121,5328943],backgroundColor:['#1a8a8a','#ddd6c8'],borderWidth:0,hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{display:false}}}});
+
+/* 13. RESTRICTED CATEGORIES */
+new Chart(document.getElementById('restrictedCatChart'),{type:'bar',data:{
+  labels:['Personnel','Travel','Contractual','Materials','Housing & HR','Facilities','Equip/Tools','Indirect'],
+  datasets:[
+    {label:'Budget',data:[4075122,798510,1306587,419610,424604,319587,607570,318318],backgroundColor:'rgba(26,138,138,0.25)',borderColor:'#1a8a8a',borderWidth:1.5,borderRadius:3,borderSkipped:false},
+    {label:'YTD Actual',data:[1835915,319585,702715,57315,204883,25646,33909,0],backgroundColor:['#1a8a8a','#1a8a8a','#1a8a8a','#1a8a8a','#1a8a8a','#1a8a8a','#1a8a8a','#1a8a8a'],borderRadius:3,borderSkipped:false}
+  ]},options:{...baseOpts(),scales:{x:{grid:{color:gc},ticks:{color:tc,font:{...bf,size:9},maxRotation:30}},y:{grid:{color:gc},ticks:{color:tc,font:bf,callback:v=>'$'+(v/1000).toFixed(0)+'K'}}}}});
+
+/* 14. UNRESTRICTED CATEGORIES */
+new Chart(document.getElementById('unrestrictedCatChart'),{type:'bar',data:{
+  labels:['Personnel','Utilities','Subscriptions','Facilities & Lease','Travel','Recruitment & Expat.','Communications','Materials','Equip & Reserve'],
+  datasets:[
+    {label:'Budget',data:[3902678,812600,644496,1174925,207536,221665,528388,926146,477053],backgroundColor:'rgba(192,122,40,0.25)',borderColor:'#c07a28',borderWidth:1.5,borderRadius:3,borderSkipped:false},
+    {label:'YTD Actual',data:[1868431,404667,276167,525278,21559,73733,86844,307579,26440],backgroundColor:'#c07a28',borderRadius:3,borderSkipped:false}
+  ]},options:{...baseOpts(),scales:{x:{grid:{color:gc},ticks:{color:tc,font:{...bf,size:9},maxRotation:30}},y:{grid:{color:gc},ticks:{color:tc,font:bf,callback:v=>'$'+(v/1000).toFixed(0)+'K'}}}}});
+
+/* 15. PERSONNEL BREAKDOWN */
+new Chart(document.getElementById('personnelChart'),{type:'doughnut',data:{
+  labels:['Salaries Regular $1,444K','Soc. Security Tax $121K','Soc. Security Health $43K','ASC-401K $62K','Adjunct $65K','Additional Duties $25K','Other Benefits $107K'],
+  datasets:[{data:[1444881,120879,43454,62471,65463,25435,106779],backgroundColor:['#1a8a8a','#c07a28','#2d8a5e','#b8860b','#6d4c9e','#b03030','#22a0a0'],borderWidth:1,borderColor:'#fff',hoverOffset:5}]},
+  options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{position:'right',labels:{color:legCol,font:{size:10},boxWidth:9,padding:7}}}}});
+
+/* 16. OPERATING COSTS */
+new Chart(document.getElementById('opsChart'),{type:'bar',data:{
+  labels:['Utilities','Subscriptions','Lease/Land','Telephone','Contractual','Recruit./Expat.','Scholarships','Others','Fuel/POL'],
+  datasets:[{label:'YTD Actual ($)',data:[404667,276167,86924,86844,14219,73733,57454,189213,33687],backgroundColor:['#1a8a8a','#c07a28','#2d8a5e','#b8860b','#b03030','#6d4c9e','#22a0a0','#8a95a8','#0f1e3d'],borderRadius:3,borderSkipped:false}]},
+  options:{...noLeg(baseOpts()),scales:{x:{grid:{color:'transparent'},ticks:{color:tc,font:{...bf,size:9},maxRotation:35}},y:{grid:{color:gc},ticks:{color:tc,font:bf,callback:v=>'$'+(v/1000).toFixed(0)+'K'}}}}});
+
+/* 17b. TVET ACADEMIC TAB */
+new Chart(document.getElementById('tvetAcadChart'),{type:'bar',data:{labels:['2020','2021','2022','2023','2024','2025'],datasets:[
+  {label:'Participants',data:[78,49,58,31,75,76],backgroundColor:'rgba(26,138,138,0.3)',borderColor:'#1a8a8a',borderWidth:1.5,borderRadius:3},
+  {label:'Completers',data:[70,46,49,29,75,74],backgroundColor:'rgba(45,138,94,0.5)',borderColor:'#2d8a5e',borderWidth:1.5,borderRadius:3},
+  {type:'line',label:'Employment %',data:[81,75,67,78,100,92],borderColor:'#c07a28',borderWidth:2.5,pointBackgroundColor:'#c07a28',pointRadius:5,tension:0.35,fill:false,yAxisID:'y2'}
+]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:legCol,font:bf,boxWidth:9,padding:10}}},scales:{x:{grid:{color:gc},ticks:{color:tc,font:bf}},y:{grid:{color:gc},ticks:{color:tc,font:bf}},y2:{position:'right',grid:{drawOnChartArea:false},ticks:{color:'#c07a28',callback:v=>v+'%'}}}}});
+
+/* tvetChart removed — TVET chart now in Academic tab only */
+
+function showQ(id, btn) {
+  document.querySelectorAll('.q-section').forEach(s => { s.style.display = 'none'; s.classList.remove('active'); });
+  document.querySelectorAll('.q-pill').forEach(b => b.classList.remove('q-active'));
+  const el = document.getElementById(id);
+  if(el) { el.style.display = 'block'; el.classList.add('active'); }
+  if(btn) btn.classList.add('q-active');
+}
+
+function showTab(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+</script>
+</body>
+</html>
